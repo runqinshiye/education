@@ -1,6 +1,6 @@
-# education
-潤沁網路大學---Mirth Connect 集成交换引擎安装课程  
-
+#潤沁網路大學
+##Mirth Connect 集成交换引擎安装课程  
+###網路資源備忘
 Mirth集成交换引擎官方介绍：  
 https://www.nextgen.com/products-and-services/integration-engine  
 官方开发指导：  
@@ -27,6 +27,6 @@ FHIR扩展使用指导
 http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954  
 FHIR部署实例：
 https://github.com/Fdawgs/ydh-fhir-listeners   
-
-
-中国大陆地区QQ交流群：623213258  
+* * *
+#中国大陆地区QQ交流群：[^623213258]  
+[^623213258]: Mirth Connect QQ Group.  
