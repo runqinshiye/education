@@ -31,5 +31,7 @@ http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954
 FHIR部署实例：
 https://github.com/Fdawgs/ydh-fhir-listeners   
 * * *
-#中国大陆地区QQ交流群：[^623213258]  
+
+# 中国大陆地区QQ交流群：[^623213258]  
+ 
 [^623213258]: Mirth Connect QQ Group.  
