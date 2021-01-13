@@ -1,6 +1,7 @@
 # 潤沁網路大學
   
-## Mirth Connect集成交换引擎安装课程   
+## Mirth Connect集成交换引擎安装课程 
+https://www.cnblogs.com/meshen/p/14273748.html  
  
 ### 網路資源備忘  
 
