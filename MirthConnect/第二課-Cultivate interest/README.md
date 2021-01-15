@@ -14,7 +14,7 @@ https://www.cnblogs.com/runqinshiye/p/14283559.html
 
 ## 技术要点：  
 
-定时刷库提取用Mirth的Database Reader信道实现；第三方webservice接口在vs2019中用C#编程实现。 
+定时刷库提取用Mirth的Database Reader信道实现；第三方webservice接口在vs2019中用VB.net编程实现。 
 
 * * *  
 中国大陆地区QQ交流群：623213258  
