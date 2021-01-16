@@ -1,10 +1,8 @@
 # 潤沁網路大學
   
-## Mirth Connect系统集成与数据交换引擎 
-https://www.cnblogs.com/runqinshiye/p/10791939.html
 * * *
 
-### [Mirth Connect集成交换引擎简介]：    
+### [Mirth Connect系统集成与数据交换引擎]：    
 
 Mirth Connect官网:https://www.nextgen.com/  
 
@@ -13,5 +11,6 @@ Mirth Connect官网:https://www.nextgen.com/
 MirthConnect是一款基于ESB总线架构的开源、跨平台、专门针对医疗信息领域的系统集成和数据交换引擎。Mirth关注的核心还在于基于医疗领域特定标准的接口转换，而不是提供一个SOA集成平台，因此mc提供了各种不同类型的源连接器和目标连接器以匹配各种不同的系统。MirthConnect还支持HL7，DICOM，JMS，SOAP等多种协议。支持对信息进行转换、映射、过滤和路由等多种处理；支持读写数据库，读写文件，生成PDF文档，发送电子邮件等多种操作。
 
 * * *  
+
 中国大陆地区QQ交流群：623213258  
  

@@ -1,7 +1,9 @@
 # 潤沁網路大學
   
 ## 開篇-Mirth Connect系統集成與數據交換引擎 
-https://www.cnblogs.com/runqinshiye/p/14273748.html 
+
+https://www.cnblogs.com/runqinshiye/p/10791939.html
+
 * * *
 
 ### Mirth Connect Online Forum 
@@ -15,5 +17,6 @@ https://github.com/runqinshiye/education/tree/main/MirthConnect
 https://www.cnblogs.com/runqinshiye/tag/Mirth/    
 
 * * *  
+
 中国大陆地区QQ交流群：623213258  
  
