@@ -1,8 +1,24 @@
-# 潤沁網路大學
-  
+# 潤沁網路大學  
+ 
 * * *
 
-### [Mirth Connect系统集成与数据交换引擎]：    
+### Mirth Connect Online Forum   
+
+China main land Tencent QQ Group ： 623213258  
+
+Github Gay Dating Community ：  
+https://github.com/runqinshiye/education/tree/main/MirthConnect  
+
+YouTube Channel ：  
+
+https://www.youtube.com/playlist?list=PLEm4HBVEi2yqY0h93kbJ4SDf1l8rCXv_S  
+
+網誌 Blog ：  
+https://www.cnblogs.com/runqinshiye/tag/Mirth/    
+
+* * *
+
+### [Mirth Connect系统集成与数据交换引擎]：     
 
 Mirth Connect官网:https://www.nextgen.com/  
 
