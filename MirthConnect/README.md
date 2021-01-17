@@ -9,7 +9,7 @@ China main land Tencent QQ Group ： 623213258
 Github Gay Dating Community ：  
 https://github.com/runqinshiye/education/tree/main/MirthConnect  
 
-YouTube Channel ：  
+YouTube Channel Playlist：  
 
 https://www.youtube.com/playlist?list=PLEm4HBVEi2yqY0h93kbJ4SDf1l8rCXv_S  
 
