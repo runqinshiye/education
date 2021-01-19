@@ -27,7 +27,7 @@ https://forums.mirthproject.io/
 维基页面
 http://www.mirthcorp.com/community/wiki/dashboard.action  
 FHIR CONNECTOR EXTENSION SOFTWARE
-http://downloads.mirthcorp.com/fhir/3.10.0/fhir-3.10.0.b1356.zip  
+http://downloads.mirthcorp.com/fhir/3.10.1/fhir-3.10.1.b286.zip 
 FHIR扩展使用指导
 http://www.mirthcorp.com/community/wiki/pages/viewpage.action?pageId=38798954  
 FHIR部署实例：
