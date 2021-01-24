@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallMirthWinFromClient", "CallMirthWinFromClient\CallMirthWinFromClient.csproj", "{870C2722-2F5B-4DD8-9591-EEAAA5C8E27C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServiceSharpDemo", "WebServiceSharpDemo\WebServiceSharpDemo.csproj", "{59676887-0A7A-4B0E-8C0E-FD7DFB8B5A95}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{870C2722-2F5B-4DD8-9591-EEAAA5C8E27C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{870C2722-2F5B-4DD8-9591-EEAAA5C8E27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{870C2722-2F5B-4DD8-9591-EEAAA5C8E27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{870C2722-2F5B-4DD8-9591-EEAAA5C8E27C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59676887-0A7A-4B0E-8C0E-FD7DFB8B5A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59676887-0A7A-4B0E-8C0E-FD7DFB8B5A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59676887-0A7A-4B0E-8C0E-FD7DFB8B5A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59676887-0A7A-4B0E-8C0E-FD7DFB8B5A95}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D864CE9-1282-4FA2-8E7C-7DB7CE74FE7D}
+	EndGlobalSection
+EndGlobal
