@@ -55,6 +55,7 @@ namespace CallMirthWinFromClient
             this.label8 = new System.Windows.Forms.Label();
             this.TcpTxtPort = new System.Windows.Forms.TextBox();
             this.TcpTxtIP = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -62,6 +63,7 @@ namespace CallMirthWinFromClient
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.btnWsInit);
             this.groupBox1.Controls.Add(this.btnWsSend);
             this.groupBox1.Controls.Add(this.label2);
@@ -87,12 +89,12 @@ namespace CallMirthWinFromClient
             // 
             // btnWsSend
             // 
-            this.btnWsSend.Location = new System.Drawing.Point(818, 19);
+            this.btnWsSend.Location = new System.Drawing.Point(818, 10);
             this.btnWsSend.Margin = new System.Windows.Forms.Padding(2);
             this.btnWsSend.Name = "btnWsSend";
-            this.btnWsSend.Size = new System.Drawing.Size(82, 27);
+            this.btnWsSend.Size = new System.Drawing.Size(82, 21);
             this.btnWsSend.TabIndex = 11;
-            this.btnWsSend.Text = "发送消息";
+            this.btnWsSend.Text = "A.发送消息";
             this.btnWsSend.UseVisualStyleBackColor = true;
             this.btnWsSend.Click += new System.EventHandler(this.btnWsSend_Click);
             // 
@@ -332,6 +334,16 @@ namespace CallMirthWinFromClient
             this.TcpTxtIP.TabIndex = 7;
             this.TcpTxtIP.Text = "127.0.0.1";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(818, 32);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "B.发送消息";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -386,6 +398,7 @@ namespace CallMirthWinFromClient
         private System.Windows.Forms.Button btnWsInit;
         private System.Windows.Forms.Button btnTcpInit;
         private System.Windows.Forms.CheckBox chkMLLP;
+        private System.Windows.Forms.Button button1;
     }
 }
 

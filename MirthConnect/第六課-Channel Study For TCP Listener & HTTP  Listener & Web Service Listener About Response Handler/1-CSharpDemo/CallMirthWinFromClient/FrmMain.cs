@@ -17,7 +17,17 @@ namespace CallMirthWinFromClient
             outTxt.Text = Convert.ToString(wsd.ExecuteQuery(WsTxtFunName.Text.Trim(), InRtbTxt.Text.Trim()));
             wsd.Dispose();
         }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using (var service = new ClearwaveMirthService())
+            {
+                service.Url = $"http://localhost:8004/services/Mirth/{WsTxtFunName.Text.Trim()}";  
+                var response = service.acceptMessage(InRtbTxt.Text.Trim());
+                Console.WriteLine("Response From Clearwave: " + response);
+                outTxt.Text = response;
+            }
 
+        }
         private void btnHttpSender_Click(object sender, EventArgs e)
         {
             outTxt.Text= HttpCallerLib.SendHttpMsg(string.Format("http://{0}:{1}/", httpTxtIP.Text.Trim(), httpTxtPort.Text.Trim()),InRtbTxt.Text.Trim());
@@ -57,5 +67,7 @@ namespace CallMirthWinFromClient
             InHl7v2Paras.AppendLine("PV1||I|2324^2302^-B ||||1111111^PINA|||MED|||||||1111111^PINA|S||S|P||||||||||||||||||IAH|||||200201291848|");
             InHl7v2Paras.Append("PV2|||^SEIZURE, FEVER, RLQ PAIN");
         }
+
+        
     }
 }
