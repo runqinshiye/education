@@ -37,12 +37,10 @@ namespace MirthConnect
 
 
             Console.WriteLine();
-            //DisplayAllChannelStatus(client);
-
-            //var oldchannel = client.Channels.GetChannel(channelId);
+            DisplayAllChannelStatus(client);
+            var channelId = "1340b356-1914-4963-9939-0d3371d173e2";
+            var oldchannel = client.Channels.GetChannel(channelId);
             //oldchannel.Name = "ChannelCreatedFromTemplate2";
-
-
             //client.Channels.Update(channel);
             //client.Channels.Create(oldchannel);
 
