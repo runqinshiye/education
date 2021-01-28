@@ -10,7 +10,7 @@ https://www.cnblogs.com/runqinshiye/p/14327552.html
 
 #### 示例描述：  
 
-Mirth Connect支持js脚本调用自定义java扩展Jar包的导入和调用，有效的提升了平台可扩展性和功能性。
+Mirth Connect支持js脚本调用自定义java扩展Jar包的导入和调用，有效的提升了平台可扩展性和灵活性。
 
 #### 技术要点：  
 
