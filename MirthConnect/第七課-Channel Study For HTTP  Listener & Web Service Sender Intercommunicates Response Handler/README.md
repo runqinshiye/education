@@ -10,7 +10,7 @@ https://www.cnblogs.com/runqinshiye/p/14321955.html
 
 #### 示例描述：  
 
-系统A发送XML格式患者信息到Mirth的Source端Mirth HTTP Listener，完成患者信息入库逻辑；然后Mirth的Destinations的Web Service Sender调用C#开放的Webservice接口服务完成患者信息的查询并把响应结果返回给最初调用者系统A。
+系统A发送XML格式患者信息到Mirth的Source端HTTP Listener，完成患者信息入库逻辑；然后Mirth的Destinations端Web Service Sender调用系统B开放的C#实现的Webservice接口服务完成患者信息的查询并把响应结果返回给最初调用者系统A。这个数据交互通讯过程涉及:系统A---->Mirth---->系统B---->Mirth---->系统A
 
 #### 技术要点：  
 
