@@ -1,0 +1,433 @@
+<channel version="3.10.1">
+  <id>7ac487a9-4336-44a3-91a3-3c5d07e7ec4c</id>
+  <nextMetaDataId>2</nextMetaDataId>
+  <name>Custom Restful api</name>
+  <description>Incoming message looks like this:&#xd;
+ &#xd;
+&lt;HttpRequest&gt;&#xd;
+&lt;RemoteAddress&gt;71.127.40.115&lt;/RemoteAddress&gt;&#xd;
+&lt;RequestUrl&gt;http://www.example.com:8080/myrestservice&lt;/RequestUrl&gt;&#xd;
+&lt;Method&gt;GET&lt;/Method&gt;&#xd;
+&lt;RequestPath&gt;foo=bar&lt;/RequestPath&gt;&#xd;
+&lt;RequestContextPath&gt;/myrestservice/param1/param2&lt;/RequestContextPath&gt;&#xd;
+&lt;Parameters&gt;&#xd;
+&lt;foo&gt;bar&lt;/foo&gt;&#xd;
+&lt;/Parameters&gt;&#xd;
+&lt;Header&gt;&#xd;
+&lt;Host&gt;www.example.com:8080&lt;/Host&gt;&#xd;
+&lt;Accept-Encoding&gt;identity&lt;/Accept-Encoding&gt;&#xd;
+&lt;User-Agent&gt;Wget/1.18 (darwin15.5.0)&lt;/User-Agent&gt;&#xd;
+&lt;Connection&gt;keep-alive&lt;/Connection&gt;&#xd;
+&lt;Accept&gt;application/xml&lt;/Accept&gt;&#xd;
+&lt;/Header&gt;&#xd;
+&lt;Content/&gt;&#xd;
+&lt;/HttpRequest&gt;&#xd;
+==========================================================================================&#xd;
+&lt;HttpRequest&gt;&#xd;
+&lt;RemoteAddress&gt;71.127.40.115&lt;/RemoteAddress&gt;&#xd;
+&lt;RequestUrl&gt;http://www.example.com:8080/myrestservice&lt;/RequestUrl&gt;&#xd;
+&lt;Method&gt;GET&lt;/Method&gt;&#xd;
+&lt;RequestPath&gt;foo=bar&lt;/RequestPath&gt;&#xd;
+&lt;RequestContextPath&gt;/myrestservice/param1/param2&lt;/RequestContextPath&gt;&#xd;
+&lt;Parameters&gt;&#xd;
+&lt;foo&gt;bar&lt;/foo&gt;&#xd;
+&lt;/Parameters&gt;&#xd;
+&lt;Header&gt;&#xd;
+&lt;Host&gt;www.example.com:8080&lt;/Host&gt;&#xd;
+&lt;Accept-Encoding&gt;identity&lt;/Accept-Encoding&gt;&#xd;
+&lt;User-Agent&gt;Wget/1.18 (darwin15.5.0)&lt;/User-Agent&gt;&#xd;
+&lt;Connection&gt;keep-alive&lt;/Connection&gt;&#xd;
+&lt;Accept&gt;application/json&lt;/Accept&gt;&#xd;
+&lt;/Header&gt;&#xd;
+&lt;Content/&gt;&#xd;
+&lt;/HttpRequest&gt;</description>
+  <revision>13</revision>
+  <sourceConnector version="3.10.1">
+    <metaDataId>0</metaDataId>
+    <name>sourceConnector</name>
+    <properties class="com.mirth.connect.connectors.http.HttpReceiverProperties" version="3.10.1">
+      <pluginProperties>
+        <com.mirth.connect.plugins.httpauth.NoneHttpAuthProperties version="3.10.1">
+  <authType>NONE</authType>
+        </com.mirth.connect.plugins.httpauth.NoneHttpAuthProperties>
+      </pluginProperties>
+      <listenerConnectorProperties version="3.10.1">
+        <host>0.0.0.0</host>
+        <port>8019</port>
+      </listenerConnectorProperties>
+      <sourceConnectorProperties version="3.10.1">
+        <responseVariable>d1</responseVariable>
+        <respondAfterProcessing>true</respondAfterProcessing>
+        <processBatch>false</processBatch>
+        <firstResponse>false</firstResponse>
+        <processingThreads>1</processingThreads>
+        <resourceIds class="linked-hash-map">
+          <entry>
+            <string>Default Resource</string>
+            <string>[Default Resource]</string>
+          </entry>
+        </resourceIds>
+        <queueBufferSize>1000</queueBufferSize>
+      </sourceConnectorProperties>
+      <xmlBody>true</xmlBody>
+      <parseMultipart>true</parseMultipart>
+      <includeMetadata>false</includeMetadata>
+      <binaryMimeTypes>application/.*(?&lt;!json|xml)$|image/.*|video/.*|audio/.*</binaryMimeTypes>
+      <binaryMimeTypesRegex>true</binaryMimeTypesRegex>
+      <responseContentType>text/plain; charset=UTF-8</responseContentType>
+      <responseDataTypeBinary>false</responseDataTypeBinary>
+      <responseStatusCode>${responseStatusCode}</responseStatusCode>
+      <responseHeaders class="linked-hash-map">
+        <entry>
+          <string>Content-Type</string>
+          <list>
+            <string> ${responseContentType}</string>
+          </list>
+        </entry>
+      </responseHeaders>
+      <responseHeadersVariable></responseHeadersVariable>
+      <useResponseHeadersVariable>false</useResponseHeadersVariable>
+      <charset>UTF-8</charset>
+      <contextPath>/myrestservice</contextPath>
+      <timeout>30000</timeout>
+      <staticResources/>
+    </properties>
+    <transformer version="3.10.1">
+      <elements/>
+      <inboundDataType>XML</inboundDataType>
+      <outboundDataType>XML</outboundDataType>
+      <inboundProperties class="com.mirth.connect.plugins.datatypes.xml.XMLDataTypeProperties" version="3.10.1">
+        <serializationProperties class="com.mirth.connect.plugins.datatypes.xml.XMLSerializationProperties" version="3.10.1">
+          <stripNamespaces>false</stripNamespaces>
+        </serializationProperties>
+        <batchProperties class="com.mirth.connect.plugins.datatypes.xml.XMLBatchProperties" version="3.10.1">
+          <splitType>Element_Name</splitType>
+          <elementName></elementName>
+          <level>1</level>
+          <query></query>
+          <batchScript></batchScript>
+        </batchProperties>
+      </inboundProperties>
+      <outboundProperties class="com.mirth.connect.plugins.datatypes.xml.XMLDataTypeProperties" version="3.10.1">
+        <serializationProperties class="com.mirth.connect.plugins.datatypes.xml.XMLSerializationProperties" version="3.10.1">
+          <stripNamespaces>false</stripNamespaces>
+        </serializationProperties>
+        <batchProperties class="com.mirth.connect.plugins.datatypes.xml.XMLBatchProperties" version="3.10.1">
+          <splitType>Element_Name</splitType>
+          <elementName></elementName>
+          <level>1</level>
+          <query></query>
+          <batchScript></batchScript>
+        </batchProperties>
+      </outboundProperties>
+    </transformer>
+    <filter version="3.10.1">
+      <elements/>
+    </filter>
+    <transportName>HTTP Listener</transportName>
+    <mode>SOURCE</mode>
+    <enabled>true</enabled>
+    <waitForPrevious>true</waitForPrevious>
+  </sourceConnector>
+  <destinationConnectors>
+    <connector version="3.10.1">
+      <metaDataId>1</metaDataId>
+      <name>Destination 1</name>
+      <properties class="com.mirth.connect.connectors.js.JavaScriptDispatcherProperties" version="3.10.1">
+        <pluginProperties/>
+        <destinationConnectorProperties version="3.10.1">
+          <queueEnabled>false</queueEnabled>
+          <sendFirst>false</sendFirst>
+          <retryIntervalMillis>10000</retryIntervalMillis>
+          <regenerateTemplate>false</regenerateTemplate>
+          <retryCount>0</retryCount>
+          <rotate>false</rotate>
+          <includeFilterTransformer>false</includeFilterTransformer>
+          <threadCount>1</threadCount>
+          <threadAssignmentVariable></threadAssignmentVariable>
+          <validateResponse>false</validateResponse>
+          <resourceIds class="linked-hash-map">
+            <entry>
+              <string>Default Resource</string>
+              <string>[Default Resource]</string>
+            </entry>
+          </resourceIds>
+          <queueBufferSize>1000</queueBufferSize>
+          <reattachAttachments>true</reattachAttachments>
+        </destinationConnectorProperties>
+        <script>// Mirth strings don&apos;t support startsWith() in Mirth 3.0.3.
+// If necessary, add a method to the String prototype.
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+  };
+}
+ 
+ 
+/*
+Incoming message looks like this:
+ 
+&lt;HttpRequest&gt;
+&lt;RemoteAddress&gt;71.127.40.115&lt;/RemoteAddress&gt;
+&lt;RequestUrl&gt;http://www.example.com:8080/myrestservice&lt;/RequestUrl&gt;
+&lt;Method&gt;GET&lt;/Method&gt;
+&lt;RequestPath&gt;foo=bar&lt;/RequestPath&gt;
+&lt;RequestContextPath&gt;/myrestservice/param1/param2&lt;/RequestContextPath&gt;
+&lt;Parameters&gt;
+&lt;foo&gt;bar&lt;/foo&gt;
+&lt;/Parameters&gt;
+&lt;Header&gt;
+&lt;Host&gt;www.example.com:8080&lt;/Host&gt;
+&lt;Accept-Encoding&gt;identity&lt;/Accept-Encoding&gt;
+&lt;User-Agent&gt;Wget/1.18 (darwin15.5.0)&lt;/User-Agent&gt;
+&lt;Connection&gt;keep-alive&lt;/Connection&gt;
+&lt;Accept&gt;application/xml&lt;/Accept&gt;
+&lt;/Header&gt;
+&lt;Content/&gt;
+&lt;/HttpRequest&gt;
+
+&lt;HttpRequest&gt;
+&lt;RemoteAddress&gt;71.127.40.115&lt;/RemoteAddress&gt;
+&lt;RequestUrl&gt;http://www.example.com:8080/myrestservice&lt;/RequestUrl&gt;
+&lt;Method&gt;GET&lt;/Method&gt;
+&lt;RequestPath&gt;foo=bar&lt;/RequestPath&gt;
+&lt;RequestContextPath&gt;/myrestservice/param1/param2&lt;/RequestContextPath&gt;
+&lt;Parameters&gt;
+&lt;foo&gt;bar&lt;/foo&gt;
+&lt;/Parameters&gt;
+&lt;Header&gt;
+&lt;Host&gt;www.example.com:8080&lt;/Host&gt;
+&lt;Accept-Encoding&gt;identity&lt;/Accept-Encoding&gt;
+&lt;User-Agent&gt;Wget/1.18 (darwin15.5.0)&lt;/User-Agent&gt;
+&lt;Connection&gt;keep-alive&lt;/Connection&gt;
+&lt;Accept&gt;application/json&lt;/Accept&gt;
+&lt;/Header&gt;
+&lt;Content/&gt;
+&lt;/HttpRequest&gt;
+*/
+ 
+// Just in case we fail, set a sane responseContentType
+channelMap.put(&apos;responseContentType&apos;, &apos;text/plain&apos;);
+ 
+var msg = XML(connectorMessage.getRawData());
+ logger.info(msg);
+// Get the REST data from the &quot;context path&quot; which is actually
+// the &quot;path info&quot; of the request, so it will start with &apos;/myrestservice&apos;.
+var rest = msg[&apos;RequestContextPath&apos;];
+logger.info(rest);
+var myServicePrefix = &apos;/myrestservice&apos;;
+var minimumURLParameterCount = 4; // This is the minimum you require to do your work
+var maximumExpectedURLParameterCount = 5; // however many you expect to get
+var params = rest.substring(myServicePrefix).split(&apos;/&apos;, maximumExpectedURLParameterCount);
+if(params.length &lt; minimumURLParameterCount)
+ return Packages.com.mirth.connect.server.userutil.ResponseFactory.getErrorResponse(&apos;Too few parameters in request&apos;);
+var mrn = params[1]; // params[0] will be an empty string
+logger.info(mrn);
+// Now, determine the client&apos;s preference for what data type to return (XML vs. JSON).
+// We will default to XML.
+var clientWantsJSON = false;
+var responseContentType = &apos;text/xml&apos;;
+ 
+// If we see any kind of JSON before any kind of XML, we&apos;ll use
+// JSON. Otherwise, we&apos;ll use XML.
+//
+// Technically, this is incorrect resolution of the &quot;Accept&quot; header,
+// but it&apos;s good enough for an example.
+var mimeTypes = msg[&apos;Header&apos;][&apos;Accept&apos;].split(/\s*,\s*/);
+for(var i=0; i&lt;mimeTypes.length; ++i) {
+  var mimeType = mimeTypes[i].toString();
+  if(mimeType.startsWith(&apos;application/json&apos;)) {
+    clientWantsJSON = true;
+    responseContentType = &apos;application/json&apos;;
+    break;
+  } else if(mimeType.startsWith(&apos;application/xml&apos;)) {
+    clientWantsJSON = false;
+    responseContentType = &apos;application/xml&apos;;
+    break;
+  } else if(mimeType.startsWith(&apos;text/xml&apos;)) {
+    clientWantsJSON = false;
+    responseContentType = &apos;text/xml&apos;;
+    break;
+  }
+}
+ 
+var xml;
+var json;
+ 
+if(clientWantsJSON)
+  json = { status : &apos;&apos; };
+else
+  xml = new XML(&apos;&lt;response&gt;&lt;/response&gt;&apos;);
+ 
+try {
+    /*
+      Here is where you do whatever your service needs to actually do.
+     */
+ 
+  if(clientWantsJSON) {
+   json.data = { foo: 1,
+                  bar: &apos;a string&apos;,
+                  baz: [ &apos;list&apos;, &apos;of&apos;, &apos;strings&apos;]
+                };
+  } else {
+    xml[&apos;@foo&apos;] = 1;
+    xml[&apos;bar&apos;] = &apos;a string&apos;;
+    xml[&apos;baz&apos;][0] = &apos;list&apos;;
+    xml[&apos;baz&apos;][1] = &apos;of&apos;;
+    xml[&apos;baz&apos;][3] = &apos;strings&apos;;
+  }
+ 
+  // Set the response code and content-type appropriately.
+  // http://www.mirthproject.org/community/forums/showthread.php?t=12678
+ 
+  channelMap.put(&apos;responseStatusCode&apos;, 200);
+ 
+  if(clientWantsJSON) {
+    json.status = &apos;success&apos;;
+    var content = JSON.stringify(json);
+    channelMap.put(&apos;responseContent&apos;, content);
+    channelMap.put(&apos;responseContentType&apos;, responseContentType);
+    return content;
+  } else {
+    channelMap.put(&apos;responseContentType&apos;, responseContentType);
+    var content = xml.toString();
+    channelMap.put(&apos;responseContent&apos;, content);
+    return content;
+  }
+}
+catch (err)
+{
+  channelMap.put(&apos;responseStatusCode&apos;, &apos;500&apos;);
+  if(clientWantsJSON) {
+    json.status = &apos;error&apos;;
+    if(err.javaException) {
+      // If you want to unpack a Java exception, this is how you do it:
+      json.errorType = String(err.javaException.getClass().getName());
+      json.errorMessage = String(err.javaException.getMessage());
+    }
+ 
+    channelMap.put(&apos;responseContentType&apos;, responseContentType);
+ 
+    // Return an error with our &quot;error&quot; JSON
+    return Packages.com.mirth.connect.server.userutil.ResponseFactory.getErrorResponse(JSON.stringify(json));
+  } else {
+    if(err.javaException) {
+      xml[&apos;response&apos;][&apos;error&apos;][&apos;@type&apos;] = String(err.javaException.getClass().getName());
+      xml[&apos;response&apos;][&apos;error&apos;][&apos;@message&apos;] = String(err.javaException.getMessage());
+    }
+ 
+    channelMap.put(&apos;responseContentType&apos;, responseContentType);
+ 
+    // Return an error with our &quot;error&quot; XML
+    return Packages.com.mirth.connect.server.userutil.ResponseFactory.getErrorResponse(xml.toString());
+  }
+}</script>
+      </properties>
+      <transformer version="3.10.1">
+        <elements/>
+        <inboundTemplate encoding="base64"></inboundTemplate>
+        <outboundTemplate encoding="base64"></outboundTemplate>
+        <inboundDataType>XML</inboundDataType>
+        <outboundDataType>RAW</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.xml.XMLDataTypeProperties" version="3.10.1">
+          <serializationProperties class="com.mirth.connect.plugins.datatypes.xml.XMLSerializationProperties" version="3.10.1">
+            <stripNamespaces>false</stripNamespaces>
+          </serializationProperties>
+          <batchProperties class="com.mirth.connect.plugins.datatypes.xml.XMLBatchProperties" version="3.10.1">
+            <splitType>Element_Name</splitType>
+            <elementName></elementName>
+            <level>1</level>
+            <query></query>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.10.1">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.10.1">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </transformer>
+      <responseTransformer version="3.10.1">
+        <elements/>
+        <inboundDataType>RAW</inboundDataType>
+        <outboundDataType>RAW</outboundDataType>
+        <inboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.10.1">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.10.1">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </inboundProperties>
+        <outboundProperties class="com.mirth.connect.plugins.datatypes.raw.RawDataTypeProperties" version="3.10.1">
+          <batchProperties class="com.mirth.connect.plugins.datatypes.raw.RawBatchProperties" version="3.10.1">
+            <splitType>JavaScript</splitType>
+            <batchScript></batchScript>
+          </batchProperties>
+        </outboundProperties>
+      </responseTransformer>
+      <filter version="3.10.1">
+        <elements/>
+      </filter>
+      <transportName>JavaScript Writer</transportName>
+      <mode>DESTINATION</mode>
+      <enabled>true</enabled>
+      <waitForPrevious>true</waitForPrevious>
+    </connector>
+  </destinationConnectors>
+  <preprocessingScript>// Modify the message variable below to pre process data
+return message;</preprocessingScript>
+  <postprocessingScript>// This script executes once after a message has been processed
+// Responses returned from here will be stored as &quot;Postprocessor&quot; in the response map
+return;</postprocessingScript>
+  <deployScript>// This script executes once when the channel is deployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</deployScript>
+  <undeployScript>// This script executes once when the channel is undeployed
+// You only have access to the globalMap and globalChannelMap here to persist data
+return;</undeployScript>
+  <properties version="3.10.1">
+    <clearGlobalChannelMap>true</clearGlobalChannelMap>
+    <messageStorageMode>DEVELOPMENT</messageStorageMode>
+    <encryptData>false</encryptData>
+    <removeContentOnCompletion>false</removeContentOnCompletion>
+    <removeOnlyFilteredOnCompletion>false</removeOnlyFilteredOnCompletion>
+    <removeAttachmentsOnCompletion>false</removeAttachmentsOnCompletion>
+    <initialState>STARTED</initialState>
+    <storeAttachments>true</storeAttachments>
+    <metaDataColumns>
+      <metaDataColumn>
+        <name>SOURCE</name>
+        <type>STRING</type>
+        <mappingName>mirth_source</mappingName>
+      </metaDataColumn>
+      <metaDataColumn>
+        <name>TYPE</name>
+        <type>STRING</type>
+        <mappingName>mirth_type</mappingName>
+      </metaDataColumn>
+    </metaDataColumns>
+    <attachmentProperties version="3.10.1">
+      <type>None</type>
+      <properties/>
+    </attachmentProperties>
+    <resourceIds class="linked-hash-map">
+      <entry>
+        <string>Default Resource</string>
+        <string>[Default Resource]</string>
+      </entry>
+    </resourceIds>
+  </properties>
+  <exportData>
+    <metadata>
+      <enabled>true</enabled>
+      <lastModified>
+        <time>1611919082904</time>
+        <timezone>Asia/Shanghai</timezone>
+      </lastModified>
+      <pruningSettings>
+        <archiveEnabled>true</archiveEnabled>
+      </pruningSettings>
+    </metadata>
+  </exportData>
+</channel>
