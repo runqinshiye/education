@@ -1,4 +1,6 @@
-﻿using MirthConnectFX;
+﻿using Common.RestSharpNet4;
+using Common.RestSharpNet4.Authenticators;
+using MirthConnectFX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,17 @@ namespace MirthConnect
         {
             ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, errors) => true;
             ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+
+            var clientR = new RestClient("https://localhost:8443/api");
+            clientR.Authenticator = new HttpBasicAuthenticator("admin", "admin");
+
+            var request = new RestRequest("users", Method.GET);
+            var response = clientR.Execute(request);
+            var status = response.StatusCode;
+
+
+
 
             var client = MirthConnectClient.Create("Default");   //Replace with setting in app.config
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MirthConnect", "MirthConnec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MirthConnectFX", "MirthConnectFX\MirthConnectFX.csproj", "{9AF68241-9F4E-4E19-8FB1-DD6E11BF0DE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinNet4RestSharp", "WinNet4RestSharp\WinNet4RestSharp.csproj", "{D291B386-99EC-43D8-AE82-975CE3EE8260}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9AF68241-9F4E-4E19-8FB1-DD6E11BF0DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AF68241-9F4E-4E19-8FB1-DD6E11BF0DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AF68241-9F4E-4E19-8FB1-DD6E11BF0DE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D291B386-99EC-43D8-AE82-975CE3EE8260}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D291B386-99EC-43D8-AE82-975CE3EE8260}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D291B386-99EC-43D8-AE82-975CE3EE8260}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D291B386-99EC-43D8-AE82-975CE3EE8260}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
