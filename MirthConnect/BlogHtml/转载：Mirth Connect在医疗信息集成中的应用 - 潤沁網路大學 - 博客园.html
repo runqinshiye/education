@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://www.cnblogs.com/runqinshiye/articles/14338243.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="origin">
+    <meta name="description" content="此项目要解决的问题是通过Mirth Connect系统集成与数据交换平台，接收并解析监护仪发送的HL7查询病人信息消息，然后将该HL7消息转换为医院电子病历所支持的Webservice接口所支持的查询">
+    <meta property="og:description" content="此项目要解决的问题是通过Mirth Connect系统集成与数据交换平台，接收并解析监护仪发送的HL7查询病人信息消息，然后将该HL7消息转换为医院电子病历所支持的Webservice接口所支持的查询">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="https://common.cnblogs.com/favicon.svg" type="image/svg+xml">
+    
+    <link rel="stylesheet" href="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/blog-common.min.css">
+    <link id="MainCss" rel="stylesheet" href="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/bundle-blacklowkey.min.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/bundle-blacklowkey-mobile.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/runqinshiye/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/runqinshiye/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/runqinshiye/wlwmanifest.xml">
+    <script async="" src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/analytics.js.下载"></script><script>
+        var currentBlogId = 512772;
+        var currentBlogApp = 'runqinshiye';
+        var cb_enable_mathjax = false;
+        var isLogined = true;
+        var isBlogOwner = true;
+        var skinName = 'BlackLowKey';
+        var visitorUserId = 'e9f89f8c-4a14-4760-e3cd-08d6cab4827b';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-01-28 10:29';
+        </script>
+    <script src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/blog-common.min.js.下载"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/logo.svg" alt="博客园Logo"></a></li>
+                <li><a href="https://www.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-sitehome&#39;)">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-news&#39;)">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-q&#39;)">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-brands&#39;)">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-ing&#39;)">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-edu&#39;)">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3">
+                        <button type="submit" id="zzk_search_button">
+                            <img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/search.svg" alt="搜索">
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: inline;">
+                        <img id="new_post_icon" class="navbar-icon" src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/newpost.svg" alt="写随笔">
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://www.cnblogs.com/runqinshiye/" alt="我的博客" title="我的博客" style="display: inline;">
+                        <img id="myblog_icon" class="navbar-icon" src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/myblog.svg" alt="我的博客">
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: inline;">
+                        <img id="msg_icon" class="navbar-icon" src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/message.svg" alt="短消息">
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: block;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/u/runqinshiye">
+                            <img id="user_icon" class="navbar-avatar" src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/20190429104559.png" alt="用户头像">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://www.cnblogs.com/runqinshiye/">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/lite-mode-check.svg" class="hide" style="display: inline;"><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: none;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: none;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/runqinshiye/"><img id="blogLogo" src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/runqinshiye/">潤沁實業</a>
+</h1>
+<h2>潤沁網路大學</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/runqinshiye/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%BD%A4%E6%B2%81%E7%B6%B2%E8%B7%AF%E5%A4%A7%E5%AD%B8">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/runqinshiye/rss/">订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 22&nbsp; </span>
+<span id="stats_article_count">文章 - 5&nbsp; </span>
+<span id="stats-comment_count">评论 - 1&nbsp; </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 1018">
+1018</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/runqinshiye/articles/14338243.html">
+    <span>转载：Mirth Connect在医疗信息集成中的应用</span>
+    
+    <img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/visibility.svg" class="text-tail-icon" title="仅登录用户可见" alt="仅登录用户可见">
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                    <div id="cnblogs_post_description" style="display: none">
+        此项目要解决的问题是通过Mirth Connect系统集成与数据交换平台，接收并解析监护仪发送的HL7查询病人信息消息，然后将该HL7消息转换为医院电子病历所支持的Webservice接口所支持的查询消息格式并发送给电子病历系统查询病人详细信息，最后将电子病历系统回应的以XML格式组织的病人详细信息转换为HL7协议发回给监护仪。
+    </div>
+<div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<p><strong><a href="http://www.ddwenzhai.com/m/view.php?aid=156209">Mirth Connect在医疗信息集成中的应用</a></strong></p>
+<p>来源：电脑知识与技术 201825期作者：廖银萍2019-01-13</p>
+<p>　　摘要：针对医院各种医疗信息系统使用不同协议和接口导致的系统间信息不能互通、共享问题，提出了使用医疗信息集成引擎Mirth Connect对各种医疗信息系统进行整合、集成的方案，以提高医护人员工作效率，降低系统集成成本。简要介绍了Mirth Connect的主要适用范围和基本工作原理。并给出了一个在医院实施的HL7系统与Web Service信息系统集成的项目实例，详细阐述了如何通过Mirth Connect实现该项目的具体过程。</p>
+<p>　　关键词：mirth connect；医疗信息集成；HL7；web service；XML</p>
+<p>　　中图分类号：TP391 文献标识码：A 文章编号：1009-3044（2018）25-0004-03</p>
+<p>　　Application of Mirth Connect in Medical Information Integration</p>
+<p>　　LIAO Yin-ping</p>
+<p>　　（Department of Electronics Information Technology，Shenzhen Institute of Technology，Shenzhen 518116， China）</p>
+<p>　　Abstract： Because of different protocol and interface used by various medical information systems in hospital， the medical information can not be shared between these systems. Using the medical information integration engine “Mirth Connect” to integrate various medical information systems in hospital can improve the working efficiency of hospital staffs and reduce the costs of system integration. Simplely introduces the base functions and working principle of “Mirth Connect”. Illustrates the details of the project which integrated the HL7 system and Web Service information system by “Mirth Connect” in hospital.</p>
+<p>　　Key words： mirth connect； medical information integration； HL7； web service； XML</p>
+<p>　　隨着医疗信息化进程不断推进，越来越多的医疗信息系统在医院得到使用，各种系统之间的信息互通共享变得更加迫切。然而不同厂商的系统提供的信息访问接口、协议各不相同，给医院信息的集成与应用带来挑战[1]。</p>
+<p>　　为了应对医院信息碎片化、孤岛化的挑战，需要一种支持各种接口、协议，稳定、灵活的信息集成引擎来连接医院不同系统，对系统间的信息进行交换、处理，以实现各系统间信息的互通与共享，使信息得到最高效的应用，真正提高医院工作效率[2-3]。</p>
+<p>　　1 Mirth Connect简介</p>
+<p>　　1.1 Mirth Connect主要功能</p>
+<p>　　Mirth Connect是一款开源、跨平台、专门针对医疗信息领域的接口集成引擎。它支持HL7，DICOM，JMS，SOAP等多种协议；支持对信息进行转换、映射、过滤和路由等多种处理；支持读写数据库，读写文件，生成PDF文档，发送电子邮件等多种操作。该引擎已经在MidState Radiology （MSMC）、Mike Nowlin、Chesapeake Medical Imaging、Cembex Care Solutions等多个成熟的医疗信息系统中得到应用[4]，充分证明其功能强大，稳定可靠。</p>
+<p>　　1.2 Mirth Connect工作原理</p>
+<p>　　Mirth Connect是基于通道（Channel）模型来实现不同系统间信息处理与集成的。通道模型如图1所示，通道由多个连接器（Connector）组成：连接消息源系统，获取源消息的连接器称为源连接器（Source Connector）；连接目标系统，发送消息到目标系统的连接器称为目的连接器（Destination Connector）。一个通道由一个唯一的源连接器和一个或多个目的连接器组成，因为对于一个通道消息来源只有一个，但同一份消息可以同时进行不同的处理并发送到不同系统，比如通道通过HTTP收到消息，可以将这份消息中包含的数据写入数据库的同时还将数据以电子邮件的方式发送出去。</p>
+<div><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/1675351-20210130152256018-1978258562.png" alt="" loading="lazy"></div>
+<p>　　因为需要连接各种不同的系统，因此Mirth Connect提供了各种不同类型的源连接器和目的连接器以匹配各种系统。源连接器包括以下类型：Channel Reader，DICOM Listener，Database Reader，File Reader，HTTP Listener，JMS Listener，JavaScript Reader，TCP Listener，Web Service Listener；目的连接器包括以下类型：Channel Writer，DICOM Sender，Database Writer，Document Writer，File Writer，HTTP Sender，JMS Sender，JavaScript Writer，SMTP Sender，TCP Sender，Web Service Sender。</p>
+<p>　　连接器可以通过设置内部的消息过滤器（Filter）对输入的消息自定义过滤规则，滤掉不需要处理的消息；也可以通过设置内部的消息转换器（Transformer）对输入的消息进行修改、转换等处理。目的连接器相比源连接器多一个回应消息转换器（Response），通过设置回应消息转换器可以对目标系统的回应消息进行修改、转换等处理。这些消息的过滤、修改、转换操作都可以通过添加用户自定义Java Script脚本实现，具有很高的灵活性[5]。</p>
+<p>　　2 实例应用</p>
+<p>　　2.1 项目介绍</p>
+<p>　　以某医院的项目实施为例。该医院存在一个电子病历系统，每个病人入院时都会被分配一个唯一的病历号，将与病历号对应的病人详细信息录入电子系统，并生成一个带病历号一维码的腕带给病人佩戴。当病人来到病床，护士需要在床旁的监护仪中录入该病人的详细信息。床旁监护仪支持扫描枪，可以通过扫描病人腕带一维码自动输入病历号到监护仪。医院希望护士在床旁扫描病人腕带获取病历号后，监护仪可以自动从医院电子病历系统中获取对应的病人详细信息，以减少护士繁琐的病人信息输入工作，同时也避免输入错误信息导致测量的不准确。实例中所用监护仪支持标准的HL7协议，但是医院的电子病历系统并不支持HL7协议，只提供基于Webservice的病人信息查询接口，因此床旁监护仪无法和医院的电子病历系统直接对接，导致无法通过扫描病历号自动获取其存储的病人信息。</p>
+<p>　　2.2 项目方案</p>
+<p>　　此项目要解决的问题是需要一个中间件能够接收并解析监护仪发送的HL7查询病人信息消息，然后将该消息转换为医院电子病历系统支持的Webservice接口向电子病历系统查询病人详细信息，最后将电子病历系统回应的以XML格式组织的病人详细信息转换为HL7协议发回给监护仪。</p>
+<p>　　医疗信息集成引擎Mirth Connect对HL7协议，Webservice和XML都有很好的支持，因此该项目通过使用Mirth Connect可以很容易地实现上面整个转换过程，具体消息转换原理和过程如图2所示：</p>
+<div><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/1675351-20210130151731445-721981543.png" alt="" loading="lazy"></div>
+<p>　　（1） Mirth Connect作为中间件，其源连接器作为服务端连接监护仪，其目的连接器作为客户端连接电子病历系统。</p>
+<p>　　（2） Mirth Connect的源连接器接收监护仪发送的HL7病人查询消息并将消息自动转换为结构化的HL7查询消息对象[6]，添加自定义Java Script脚本访问该对象，获取对象中的病历号、查询消息序列号以及查询标记这些关键信息。</p>
+<p>　　（3） Mirth Connect的目的连接器根据获取的病历号将自动生成电子病历系统所支持的Webservice查询命令，发送给电子病历系统。</p>
+<p>　　（4） 电子病历系统接收到病人查询命令后，以XML格式返回对应病历号的详细病人信息给Mirth Connect目的连接器。</p>
+<p>　　（5） 目的连接器将接收的病人详细信息自动转换为结构化的XML病人信息对象，并另外生成一个HL7回应消息对象。添加自定义Java Script脚本访问和操作这两个对象，将XML对象中的病人姓名，性别，出生日期等信息赋值给HL7对象的相应字段。因为回应的HL7消息中查询消息序列号和查询标记要与之前的查询消息一致，所以脚本还要将前面获取的查询消息序列号和查询标记也赋值给HL7对象的对应字段。</p>
+<p>　　（6） Mirth Connect源连接器将HL7回应消息对象转换为HL7消息发送给监护仪，完成一次病人信息查询过程。</p>
+<p>　　2.3 项目实施</p>
+<p>　　根据上面的方案，创建一个Mirth Connect通道，首先对源连接器进行设置：</p>
+<p>　　（1） 设置源连接器的类型为TCP Listener，并设置其绑定IP和监听端口。</p>
+<p>　　（2） 设置源连接器输入数据格式为HL7 v2.x。</p>
+<p>　　（3） 在源連接器的转换器设置中添加Java Script脚本，分别将HL7查询消息对象中MSH.10.1字段值赋给通道变量“SeqID”，QPD.2.1字段值赋给通道变量“QueryTag”，QPD.3.2字段值赋给通道变量“PatientID”。如图3所示：</p>
+<div><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/1675351-20210130151916764-1766637111.png" alt="" loading="lazy"></div>
+<p>　　接下来设置目的连接器：</p>
+<p>　　（1） 设置目的连接器类型为Webservice Sender。</p>
+<p>　　（2） 设置Webservice Sender连接器的WSDL地址为电子病历系统提供的地址，通过该地址Mirth Connect能自动获取该系统提供的所有Webservice操作接口。查询病人操作接口。</p>
+<p>　　（3） 从获取的所有Webservice接口中选取查询病人信息接口，并让Mirth Connect生成对应的请求SOAP Envelope模板[7]。</p>
+<p>　　（4） 在生成的模板中将所需要填写被查询病人病历号的地方用通道变量“PatientID”替代。具体如图4所示：</p>
+<p><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/1675351-20210130152036805-1106168171.png" alt="" loading="lazy"></p>
+<p>　　（5） 在回应消息转换器中添加Java Script脚本， 将XML消息对象中的PatientID，FirstName，LastName，Gender字段内容分别赋值给回应HL7消息对象的PID.3.1，PID.5.1，PID.5.2，PID.8.1字段，另外还将之前记录的通道变量“SeqID”，“QueryTag”值也分别赋给HL7对象的MSA.2.1和QAK.1.1字段[8]，如图5所示：</p>
+<p><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/1675351-20210130152139131-1403554255.png" alt="" loading="lazy"></p>
+<p>　　3.4 项目结果</p>
+<p>　　将Mirth Connect部署到该医院服务器上，按照上述实施方案中的步骤建立通道并进行设置，快速实现了医院不同信息系统之间的信息交互的需求，并且系统长期运行稳定。可见Mirth Connect非常适合用于集成各种医疗信息系统。</p>
+<p>　　4 结束语</p>
+<p>　　本文对医疗信息集成引擎Mirth Connect和HL7标准进行了介绍，给出一个Mirth Connect在医院中的典型应用实例，对实例中Mirth Connect具体配置及消息转换过程进行了详细解析，有助于医疗信息系统相关读者参考应用，降低医疗信息系统集成成本，改善医院工作效率。</p>
+<p>　　参考文献：</p>
+<p>　　[1] 黎亮，张君雁.医疗数据整合模式的研究[J].中国生物医学工程学报，2010，29（2）：207-211.</p>
+<p>　　[2] 陈薇薇. Mirth 平台和HL7标准下的PACS/RIS与HIS接口设计及其应用[J]. 医学信息学杂志， 2012， 33（1）： 25-27.</p>
+<p>　　[3] 刘刚，吴翔虎，曲明成，等. HL7在HIS系统中的应用研究[J]. 中国医疗设备， 2011， 26（2）： 42-48.</p>
+<p>　　[4] 杨余垒，张云华. Mirth Connect接口集成引擎在医疗数据传输中的应用[J].工业控制计算机， 2016， 29（12）： 112-113.</p>
+<p>　　[5] NEXTGEN. Mirth Connect 3.5 User Guide[EB/OL]. https：//info.mirth.com/Connect_Documentation_Download.html.</p>
+<p>　　[6] 贾伟，李伟鹏.HL7之ORU消息的XML Schema构建[J]. 中国医学物理学杂志，2008，25（4）：65-69.</p>
+<p>　　[7] 徐宏发，王卫平，郑建煌，等.基于H L7和Web Service的区域医疗机构间信息交换平台研究[J].计算机应用与软件， 2007，24（3）： 88-90.</p>
+<p>　　[8] Health Level Seven Inc. Health Level Seven： An Application Protocol for Electronic Data Exchange Environments[S]， Version 2.3，1996.</p>
+<p>　　【通联编辑：唐一东】</p>
+</div>
+<div id="MySignature" style="display: block;">潤沁網路大學</div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/runqinshiye/category/1455173.html" target="_blank">Mirth</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/runqinshiye/tag/Mirth/">Mirth</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(14338243,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow(&#39;e9f89f8c-4a14-4760-e3cd-08d6cab4827b&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/runqinshiye/" target="_blank"><img src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/20190429104559.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/runqinshiye/">潤沁網路大學</a><br>
+            <a href="https://home.cnblogs.com/u/runqinshiye/followees/">关注 - 0</a><br>
+            <a href="https://home.cnblogs.com/u/runqinshiye/followers/">粉丝 - 2</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(14338243,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(14338243,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-01-28 10:29</span>&nbsp;
+<a href="https://www.cnblogs.com/runqinshiye/">潤沁網路大學</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=14338243" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14338243);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/highlight.min.js.下载"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = true, cb_blogId = 512772, cb_blogApp = 'runqinshiye', cb_blogUserGuid = 'e9f89f8c-4a14-4760-e3cd-08d6cab4827b';
+    var cb_entryId = 14338243, cb_entryCreatedDate = '2021-01-28 10:29', cb_postType = 2;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/runqinshiye/articles/14338243.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/runqinshiye/articles/14338243.html#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;"><script type="text/javascript" src="./转载：Mirth Connect在医疗信息集成中的应用 - 潤沁網路大學 - 博客园_files/mention.min.js.下载"></script>
+<div id="commentform_title">发表评论</div>
+<span id="tip_comment" style="color:Red"></span>
+<div class="commentbox_main comment_textarea">
+    <div class="commentbox_title">
+        <div class="commentbox_title_left">
+            <span id="btn_edit_comment" class="commentbox_tab active" title="编辑评论">编辑</span>
+            <span id="btn_preview_comment" class="commentbox_tab" title="Markdown 预览">预览</span>
+        </div>
+        <div class="commentbox_title_right">
+            <span id="ubb_bold" class="comment_icon" alt="粗体" title="添加粗体(Ctrl + B)">
+                <svg class="comment_svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <path d="m13.221 19c1.4414 0 2.5793-0.27451 3.3759-0.82353 0.92931-0.66667 1.4034-1.7059 1.4034-3.1176 0-0.94118-0.22759-1.7059-0.66379-2.2549-0.45517-0.56863-1.119-0.94118-2.0103-1.1176 0.68276-0.27451 1.1948-0.64706 1.5552-1.1569 0.36034-0.54902 0.55-1.2157 0.55-2 0-1.0588-0.36034-1.902-1.0621-2.5294-0.75862-0.66667-1.8207-1-3.1672-1h-6.2017v14h6.2207zm-0.82196-8h-3.3987v-4h3.4367c0.91139 0 1.557 0.15686 1.9747 0.47059 0.37975 0.29412 0.58861 0.78431 0.58861 1.451 0 0.72549-0.20886 1.2549-0.58861 1.5882-0.39873 0.31373-1.0633 0.4902-2.0127 0.4902zm0.52612 6h-3.9249v-4h3.9855c1.052 0 1.8208 0.16216 2.3064 0.48649 0.46532 0.32432 0.70809 0.84685 0.70809 1.5856 0 0.72072-0.3237 1.2252-0.9711 1.5495-0.50578 0.25225-1.2139 0.37838-2.104 0.37838z" fill-rule="nonzero" stroke-width=".35"></path>
+                    </g>
+                </svg>
+            </span>
+            <span id="ubb_url" class="comment_icon" title="添加链接(Ctrl + K)" alt="链接">
+                <svg class="comment_svg comment_svg_stroke" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <g transform="translate(4 4)" fill-rule="nonzero" stroke-width=".4">
+                            <path d="m6.304 9.696c-0.288-0.288-0.512-0.608-0.704-0.992-0.16-0.32-0.032-0.704 0.288-0.864 0.32-0.16 0.704-0.032 0.864 0.288 0.128 0.224 0.256 0.448 0.448 0.64 0.928 0.928 2.432 0.928 3.36 0l3.36-3.328c0.928-0.928 0.928-2.432 0-3.36s-2.432-0.928-3.36 0l-2.272 2.272c-0.256 0.256-0.64 0.256-0.896 0-0.256-0.256-0.256-0.64 0-0.896l2.272-2.272c1.44-1.44 3.744-1.44 5.184 0 1.44 1.44 1.44 3.744 0 5.184l-3.36 3.296c-0.704 0.704-1.632 1.088-2.592 1.088-0.928 0-1.856-0.352-2.592-1.056z"></path>
+                            <path d="m3.776 15.808c-0.992 0-1.888-0.384-2.592-1.056-1.44-1.44-1.44-3.744 0-5.184l3.328-3.328c1.44-1.44 3.744-1.44 5.184 0 0.288 0.288 0.544 0.64 0.736 1.024 0.16 0.32 0 0.704-0.32 0.864-0.32 0.16-0.704 0-0.864-0.32-0.128-0.256-0.288-0.48-0.48-0.672-0.928-0.928-2.432-0.928-3.36 0l-3.296 3.328c-0.928 0.928-0.928 2.432 0 3.36 0.448 0.448 1.056 0.704 1.664 0.704 0.608 0 1.248-0.256 1.664-0.704l2.112-2.112c0.256-0.256 0.64-0.256 0.896 0s0.256 0.64 0 0.896l-2.112 2.112c-0.672 0.704-1.568 1.088-2.56 1.088z"></path>
+                        </g>
+                    </g>
+                </svg>
+            </span>
+            <span id="ubb_code" class="comment_icon" title="添加代码(Ctrl + `)" alt="代码">
+                <svg class="comment_svg comment_svg_stroke" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <g transform="translate(16 6)" stroke-linecap="round" stroke-width="2">
+                            <line x1=".5" x2="4.5" y1=".7" y2="6.3"></line>
+                            <line transform="translate(2.5 9.1) scale(1 -1) translate(-2.5 -9.1)" x1=".5" x2="4.5" y1="6.3" y2="11.9"></line>
+                        </g>
+                        <g transform="translate(3 6.1)" stroke-linecap="round" stroke-width="2">
+                            <line transform="translate(2.5 3.5) scale(-1 1) translate(-2.5 -3.5)" x1=".5" x2="4.5" y1=".7" y2="6.3"></line>
+                            <line transform="translate(2.5 9.1) scale(-1) translate(-2.5 -9.1)" x1=".5" x2="4.5" y1="6.3" y2="11.9"></line>
+                        </g>
+                        <path transform="translate(12 12.5) scale(1 -1) translate(-12 -12.5)" d="m10.778 7.1249c0.50008-0.11366 0.9978 0.16911 1.1643 0.64128l0.032406 0.11223 2 8.8c0.1224 0.53855-0.21496 1.0744-0.75351 1.1968-0.50008 0.11366-0.9978-0.16911-1.1643-0.64128l-0.032406-0.11223-2-8.8c-0.1224-0.53855 0.21496-1.0744 0.75351-1.1968z" fill-rule="nonzero" stroke-width=".25"></path>
+                    </g>
+                </svg>
+            </span>
+            <span id="ubb_quote" class="comment_icon" title="添加引用(Ctrl + Q)" alt="引用">
+                <svg class="comment_svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <g transform="translate(5 4)" fill-rule="nonzero" stroke-width=".25">
+                            <path d="m5.0013 15v-5.2702h-2.8008c-0.13413-3.3762 1.2004-6.2143 4.0009-8.5135l-1.2-1.2163c-3.335 2.2996-5.0013 5.8119-5.0013 10.54v4.4595h5.0013-1.285e-5zm8.7987 0v-5.2702h-2.8008c-0.13453-3.3762 1.2-6.2143 4.0009-8.5135l-1.2-1.2163c-3.335 2.2996-5.0013 5.8119-5.0013 10.54v4.4595h5.0013-1.28e-5z"></path>
+                        </g>
+                    </g>
+                </svg>
+            </span>
+            <span id="ubb_img" class="comment_icon" alt="图片" title="上传图片(Ctrl + I)">
+                <svg class="comment_svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g fill-rule="evenodd">
+                        <g transform="translate(3 3.8)" fill-rule="nonzero">
+                            <path d="m14.1 0.58235h-11.2c-1.32 0-2.4 1.0482-2.4 2.3294v10.871c0 1.2812 1.08 2.3294 2.4 2.3294h11.2c1.32 0 2.4-1.0482 2.4-2.3294v-10.871c0-1.2812-1.08-2.3294-2.4-2.3294zm0.7 13.569-3.63-3.4165 1.33-1.2909c0.21-0.20382 0.59-0.20382 0.8 0l1.6 1.5529v2.7856c0 0.13588-0.04 0.26206-0.1 0.36882zm-11.9-12.016h11.2c0.44 0 0.8 0.34941 0.8 0.77647v5.8915l-0.47-0.45618c-0.84-0.825-2.22-0.825-3.07 0l-1.35 1.3103-2.39-2.2421c-0.85-0.825-2.22-0.825-3.05-0.019412l-2.48 2.2615v-6.7456c0.01-0.42706 0.37-0.77647 0.81-0.77647zm-0.8 11.647v-1.9897l3.6-3.2806c0.21-0.20382 0.58-0.21353 0.81 0.0097059l6.43 6.0371h-10.04c-0.44 0-0.8-0.33971-0.8-0.77647z"></path>
+                            <ellipse cx="10.5" cy="6.4059" rx="1" ry="1"></ellipse>
+                        </g>
+                    </g>
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div style="display:none">
+        <span id="comment_edit_id"></span>
+        <span id="span_parentcomment_id"></span>
+        <span id="span_parent_id"></span>
+        <span id="span_comment_replyto"></span>
+        <span id="span_comment_posted"></span>
+        <span id="span_current_user_id">e9f89f8c-4a14-4760-e3cd-08d6cab4827b</span>
+    </div>
+    <textarea id="tbCommentBody" placeholder="支持 Markdown"></textarea>
+    <div id="tbCommentBodyPreview" class="feedbackCon" style="display: none">
+        <div id="tbCommentBodyPreviewBody" class="blog_comment_body comment_preview cnblogs-markdown"></div>
+    </div>
+    <div class="commentbox_footer">
+        <span>&nbsp;</span>
+        <span href="javascript:void(0)" id="ubb_auto_completion" class="comment_option">
+            <svg style="display: none" id="comment_auto_completion_on" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"><path d="M406.724 908.504c-89.02 0-157.885-32.319-206.594-96.957-49.549-64.639-73.903-155.795-73.903-274.299 0-116.017 24.354-206.345 73.903-270.155 48.71-63.81 117.574-95.3 206.594-95.3h19.316l-7.559 72.925h-3.359c-65.505 0-115.054 25.69-150.326 77.069-35.272 50.55-52.908 122.647-52.908 215.461 0 94.472 17.636 168.226 52.908 220.434 35.272 51.379 84.82 77.897 150.326 77.897h3.36l7.558 72.925h-19.316zm266.548 0c89.02 0 157.885-32.319 206.594-96.957 49.55-64.639 73.904-155.795 73.904-274.299 0-116.017-24.355-206.345-73.904-270.155-48.709-63.81-117.573-95.3-206.594-95.3h-19.315l7.558 72.925h3.36c65.505 0 115.054 25.69 150.326 77.069 35.272 50.55 52.908 122.647 52.908 215.461 0 94.472-17.636 168.226-52.908 220.434-35.272 51.379-84.821 77.897-150.327 77.897h-3.359l-7.558 72.925h19.315zm-94.068-65.897c0 31.514.854 54.433 1.708 68.758 1.709 14.325 3.417 25.784 6.835 34.38 2.563 8.594 6.834 14.324 12.814 20.054 5.126 5.73 14.523 11.46 27.337 17.189v34.38H451.914v-34.38c17.086-7.162 29.046-15.757 35.026-24.352 5.126-10.027 9.398-22.92 11.106-38.676 1.709-17.19 2.563-42.974 2.563-77.353V238.109c0-32.947-.854-55.866-1.709-71.623-1.708-14.325-4.271-25.784-6.834-32.947-3.417-8.595-7.689-15.757-12.814-20.054-5.126-5.73-14.523-10.027-27.338-17.19V61.916h175.984v34.38c-11.96 5.73-21.357 11.459-26.483 15.756-5.125 5.73-9.397 11.46-12.814 20.055-3.417 7.162-5.98 18.622-6.834 34.379-1.709 15.757-2.563 38.676-2.563 71.623v604.498z" fill-rule="nonzero"></path></svg>
+            <svg id="comment_auto_completion_off" viewBox="0 0 1080 1080" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"><path d="M242.96 223.172l59.627 58.009c-14.277 10.773-26.874 24.032-37.791 40.606-35.272 50.55-52.908 122.647-52.908 215.461 0 94.472 17.636 168.226 52.908 220.434 35.272 51.379 84.82 77.897 150.326 77.897h3.36l7.558 72.925h-19.316c-89.02 0-157.885-32.319-206.594-96.957-49.549-64.639-73.903-155.795-73.903-274.299 0-116.017 24.354-206.345 73.903-270.155 12.597-16.574 26.874-31.49 42.83-43.921zm36.952-23.204c36.112-19.06 78.943-28.175 126.812-28.175h19.316l-7.559 72.925h-3.359c-27.714 0-52.908 4.144-74.743 14.088l-60.467-58.838zM805.123 770.94l60.466 58.01c-47.869 53.036-111.695 79.554-192.317 79.554h-19.315l7.558-72.925h3.36c59.626 0 105.816-21.546 140.248-64.638zm23.515-37.29c26.034-49.723 39.47-115.19 39.47-196.402 0-92.814-17.635-164.91-52.907-215.461-35.272-51.38-84.821-77.069-150.327-77.069h-3.359l-7.558-72.925h19.315c89.02 0 157.885 31.49 206.594 95.3 49.55 63.81 73.904 154.138 73.904 270.155 0 108.56-20.996 194.744-62.146 257.725l-62.986-61.324zM500.609 474.465l78.595 75.92v292.222c0 31.514.854 54.433 1.708 68.758 1.709 14.325 3.417 25.784 6.835 34.38 2.563 8.594 6.834 14.324 12.814 20.054 5.126 5.73 14.523 11.46 27.337 17.189v34.38H451.914v-34.38c17.086-7.162 29.046-15.757 35.026-24.352 5.126-10.027 9.398-22.92 11.106-38.676 1.709-17.19 2.563-42.974 2.563-77.353V474.465zm0-60.164V238.11c0-32.947-.854-55.866-1.709-71.623-1.708-14.325-4.271-25.784-6.834-32.947-3.417-8.595-7.689-15.757-12.814-20.054-5.126-5.73-14.523-10.027-27.338-17.19v-34.38h175.984v34.38c-11.96 5.73-21.357 11.459-26.483 15.756-5.125 5.73-9.397 11.46-12.814 20.055-3.417 7.162-5.98 18.622-6.834 34.379-1.709 15.757-2.563 38.676-2.563 71.623v253.545l-78.595-77.353z"></path><path d="M153.103 132.024l805.45 783.706-44.277 45.505-805.45-783.706z"></path></svg>
+            <span class="inline_middle">自动补全</span>
+        </span>
+    </div>
+</div>
+<p id="commentbox_opt">
+    <input id="btn_comment_submit" type="button" class="comment_btn" title="提交评论(Ctrl + Enter)" value="提交评论">
+    <span id="span_comment_canceledit" style="display:none"><a href="javascript:void(0);" onclick="return CancelCommentEdit()">不改了</a></span>
+    <a href="javascript:void(0);" onclick="return account.logout();">退出</a>
+</p>
+<div id="tip_comment2" style="color:Red"></div>
+<p>[Ctrl+Enter快捷键提交]</p>
+<script>var commentEditor = initCommentEditor("tbCommentBody");</script>
+
+</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-ucancode&#39;)">【推荐】大型组态、工控、仿真、CAD\GIS 50万行VC++源码免费下载!</a><br><a href="https://www.cnblogs.com/cmt/p/14544943.html" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-AWS研讨会&#39;)">【推荐】亚马逊云科技在线研讨会：借助图神经网络实现实时欺诈检测</a><br><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-华为专区&#39;)">【推荐】华为开发者联盟--邀友同注册，解锁阶梯“豪”礼</a><br><a href="http://www.moojnn.com/?source=bokeyuan" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-魔镜&#39;)">【推荐】限时秒杀！国云大数据魔镜，企业级云分析平台</a><br></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;"></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card"><b>园子动态</b>：<br>· <a href="https://www.cnblogs.com/cmt/p/14217355.html" target="_blank">发起一个开源项目：博客引擎 fluss</a><br>· <a href="https://www.cnblogs.com/cmt/p/13900203.html" target="_blank">云计算之路-新篇章-出海记：开篇</a><br>· <a href="https://www.cnblogs.com/dudu/articles/14072887.html" target="_blank">博客园2005年6月1日首页截图</a><br></div></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;"></div>
+    </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br>
+ ·          <a href="https://news.cnblogs.com/n/690421/" target="_blank">黄峥勇退：一年之内卸任CEO和董事长 想去“寻找幸福”</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/690422/" target="_blank">百度二次上市，三重价值</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/690420/" target="_blank">快手三年游戏路，路在何处？</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/690419/" target="_blank">谷歌涂鸦庆祝爱尔兰圣帕特里克节</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/690418/" target="_blank">NASA的SMA轮胎技术即将商用 30倍于钢的可恢复应变</a>
+        <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card">
+<b>历史上的今天：</b>
+<br>
+
+2021-01-28    <a href="https://www.cnblogs.com/runqinshiye/p/14338185.html">第九課-Channel Study For Caller Client Api</a>
+    <br>
+</div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/runqinshiye/">
+            潤沁網路大學
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/runqinshiye/" title="入园时间：2019-04-29">
+            1年10个月
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/runqinshiye/followers/">
+            2
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/runqinshiye/followees/">
+            0
+        </a>
+        <div id="p_b_follow"></div>
+        <script>getFollowStatus('e9f89f8c-4a14-4760-e3cd-08d6cab4827b');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2021/02/27&#39;); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年3月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2021/04/27&#39;); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        6
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            7
+                        </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            13
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            20
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                        <td class="CalTodayDay" align="center">
+                            27
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            10
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/runqinshiye/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/runqinshiye/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/runqinshiye/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/runqinshiye/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/runqinshiye/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/runqinshiye/tag/Mirth/">Mirth<span class="tag-count">(18)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/runqinshiye/tag/HL7/">HL7<span class="tag-count">(7)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/runqinshiye/tag/DataBase/">DataBase<span class="tag-count">(2)</span></a>
+        </li>
+    
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔分类
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/category/1936803.html" rel="" target="">
+    DataBase(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/category/1923844.html" rel="" target="">
+    HL7(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/category/1923843.html" rel="" target="">
+    Mirth(15)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/archive/2021/02.html" rel="" target="">
+    2021年2月(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/archive/2021/01.html" rel="" target="">
+    2021年1月(20)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_articlecategory" class="catListArticleCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+文章分类
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/category/1455173.html" rel="" target="">
+    Mirth(3)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/runqinshiye/p/14327552.html">1. Re:第八課-Channel Study For Caller Custom JAR Lib</a></li>
+                    <li class="recent_comment_body"><p>受益匪浅！！！</p>
+</li>
+                    <li class="recent_comment_author">--少年郎1</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14324742.html">
+                            1. HL7传输协议(161)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14273748.html">
+                            2. 第壹課-Install：Mirth Connect在Win10下的安装步骤(99)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/10791939.html">
+                            3. 开篇:Mirth Connect系统集成与数据交换引擎(95)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14324402.html">
+                            4. HL7标准的版本(75)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14303253.html">
+                            5. 第三課：信道学习Source Connect Reader &amp; Destinations File Writer(60)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14327552.html">
+                            1. 第八課-Channel Study For Caller Custom JAR Lib(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block"></div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 潤沁網路大學
+<br><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <a href="https://github.com/runqinshiye">潤沁網路大學</a>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8EklyHYHyB5Oj4onWtxTnxaUzKAeBLv-blCT2d3QDMbnauai5WSC5ddG8B35JKupnlSKSJU499bWUPnFNxwaHdt_CLQl6J--BQetYraJ5cTrJP2tReUaRQoEOn-_RQ2-fRg_B_8Tp8xhQqL1sNhIYvTzdC5Y-LcVQk2ZQhpU-BT0-FuaWf1AfHGGipnBvOQH7g">
+
+
+</body></html>

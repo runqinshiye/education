@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://www.cnblogs.com/runqinshiye/articles/14500926.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="never">
+    <meta name="description" content="AWS Big Data Blog Create a Healthcare Data Hub with AWS and Mirth Connect by&amp;#160;Joseph Fontes&amp;#160">
+    <meta property="og:description" content="AWS Big Data Blog Create a Healthcare Data Hub with AWS and Mirth Connect by&amp;#160;Joseph Fontes&amp;#160">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园</title>
+    <link id="favicon" rel="shortcut icon" href="https://common.cnblogs.com/favicon.svg" type="image/svg+xml">
+    
+    <link rel="stylesheet" href="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/blog-common.min.css">
+    <link id="MainCss" rel="stylesheet" href="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/bundle-blacklowkey.min.css">
+    
+    <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/bundle-blacklowkey-mobile.min.css">
+    
+    <link type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/runqinshiye/rss">
+    <link type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/runqinshiye/rsd.xml">
+    <link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/runqinshiye/wlwmanifest.xml">
+    <script async="" src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/analytics.js.下载"></script><script>
+        var currentBlogId = 512772;
+        var currentBlogApp = 'runqinshiye';
+        var cb_enable_mathjax = false;
+        var isLogined = true;
+        var isBlogOwner = true;
+        var skinName = 'BlackLowKey';
+        var visitorUserId = 'e9f89f8c-4a14-4760-e3cd-08d6cab4827b';
+    </script>
+        <script>
+            var currentPostDateAdded = '2021-03-08 05:33';
+        </script>
+    <script src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+    <script src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/blog-common.min.js.下载"></script><style type="text/css">.medium-zoom-overlay{position:fixed;top:0;right:0;bottom:0;left:0;opacity:0;transition:opacity .3s;will-change:opacity}.medium-zoom--opened .medium-zoom-overlay{cursor:pointer;cursor:zoom-out;opacity:1}.medium-zoom-image{cursor:pointer;cursor:zoom-in;transition:transform .3s cubic-bezier(.2,0,.2,1)!important}.medium-zoom-image--hidden{visibility:hidden}.medium-zoom-image--opened{position:relative;cursor:pointer;cursor:zoom-out;will-change:transform}</style>
+    
+    
+    
+</head>
+<body class="has-navbar">
+    <a name="top"></a>
+    <div id="top_nav" class="navbar forpc">
+        <nav id="nav_main" class="navbar-main">
+            <ul id="nav_left" class="navbar-list navbar-left">
+                <li class="navbar-branding"><a href="https://www.cnblogs.com/" title="开发者的网上家园"><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/logo.svg" alt="博客园Logo"></a></li>
+                <li><a href="https://www.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-sitehome&#39;)">首页</a></li>
+                <li><a href="https://news.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-news&#39;)">新闻</a></li>
+                <li><a href="https://q.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-q&#39;)">博问</a></li>
+                <li><a id="nav_brandzone" href="https://brands.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-brands&#39;)">专区</a></li>
+                <li><a href="https://ing.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-ing&#39;)">闪存</a></li>
+                <li><a href="https://edu.cnblogs.com/" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;skin-navbar-edu&#39;)">班级</a></li>
+            </ul>
+            <ul id="nav_right" class="navbar-list navbar-right">
+                <li>
+                    <form id="zzk_search" class="navbar-search" action="https://zzk.cnblogs.com/s" method="get">
+                        <input name="w" id="zzk_search_input" placeholder="代码改变世界" type="text" tabindex="3">
+                        <button type="submit" id="zzk_search_button">
+                            <img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/search.svg" alt="搜索">
+                        </button>
+                    </form>
+                </li>
+                <li id="navbar_login_status" class="navbar-list">
+                    <a class="navbar-user-info navbar-blog" href="https://i.cnblogs.com/EditPosts.aspx?opt=1" alt="写随笔" title="写随笔" style="display: inline;">
+                        <img id="new_post_icon" class="navbar-icon" src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/newpost.svg" alt="写随笔">
+                    </a>
+                    <a id="navblog-myblog-icon" class="navbar-user-info navbar-blog" href="https://www.cnblogs.com/runqinshiye/" alt="我的博客" title="我的博客" style="display: inline;">
+                        <img id="myblog_icon" class="navbar-icon" src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/myblog.svg" alt="我的博客">
+                    </a>
+                    <a class="navbar-user-info navbar-message navbar-icon-wrapper" href="https://msg.cnblogs.com/" alt="短消息" title="短消息" style="display: inline;">
+                        <img id="msg_icon" class="navbar-icon" src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/message.svg" alt="短消息">
+                        <span id="msg_count" style="display: none"></span>
+                    </a>
+                    <div id="user_info" class="navbar-user-info dropdown" style="display: block;">
+                        <a class="dropdown-button" href="https://home.cnblogs.com/u/runqinshiye">
+                            <img id="user_icon" class="navbar-avatar" src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/20190429104559.png" alt="用户头像">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a id="navblog-myblog-text" href="https://www.cnblogs.com/runqinshiye/">我的博客</a>
+                            <a href="https://home.cnblogs.com/">我的园子</a>
+                            <a href="https://account.cnblogs.com/settings/account">账号设置</a>
+                            <a href="javascript:void(0)" id="navbar_lite_mode_toggle" title="简洁模式会使用简洁款皮肤显示所有博客">
+    简洁模式 <img id="navbar_lite_mode_on" src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/lite-mode-check.svg" class="hide" style="display: inline;"><span id="navbar_lite_mode_spinner" class="hide">...</span>
+</a>
+                            <a href="javascript:void(0)" onclick="account.logout();">退出登录</a>
+                        </div>
+                    </div>
+                    <a class="navbar-anonymous" href="https://account.cnblogs.com/signup/" style="display: none;">注册</a>
+                    <a class="navbar-anonymous" href="javascript:void(0);" onclick="account.login()" style="display: none;">登录</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+    <!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+        <a id="lnkBlogLogo" href="https://www.cnblogs.com/runqinshiye/"><img id="blogLogo" src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/logo.gif" alt="返回主页"></a>		
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle HeaderMainTitle" href="https://www.cnblogs.com/runqinshiye/">潤沁實業</a>
+</h1>
+<h2>潤沁網路大學</h2>
+
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="https://www.cnblogs.com/">
+博客园</a>
+</li>
+<li>
+<a id="blog_nav_myhome" class="menu" href="https://www.cnblogs.com/runqinshiye/">
+首页</a>
+</li>
+<li>
+
+<a id="blog_nav_newpost" class="menu" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">
+新随笔</a>
+</li>
+<li>
+<a id="blog_nav_contact" class="menu" href="https://msg.cnblogs.com/send/%E6%BD%A4%E6%B2%81%E7%B6%B2%E8%B7%AF%E5%A4%A7%E5%AD%B8">
+联系</a></li>
+<li>
+<a id="blog_nav_rss" class="menu" href="javascript:void(0)" data-rss="https://www.cnblogs.com/runqinshiye/rss/">订阅</a>
+<!--<partial name="./Shared/_XmlLink.cshtml" model="Model" /></li>--></li>
+<li>
+<a id="blog_nav_admin" class="menu" href="https://i.cnblogs.com/">
+管理</a>
+</li>
+</ul>
+
+
+		<div class="blogStats">
+			<span id="stats_post_count">随笔 - 22&nbsp; </span>
+<span id="stats_article_count">文章 - 5&nbsp; </span>
+<span id="stats-comment_count">评论 - 1&nbsp; </span>
+<span id="stats-total-view-count">阅读 - 
+<span title="总阅读数: 1018">
+1018</span></span>
+
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="post_detail">
+    <!--done-->
+    <div id="topics">
+        <div class="post">
+            <h1 class="postTitle">
+                
+<a id="cb_post_title_url" class="postTitle2 vertical-middle" href="https://www.cnblogs.com/runqinshiye/articles/14500926.html">
+    <span>Create a Healthcare Data Hub with AWS and Mirth Connect</span>
+    
+    <img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/visibility.svg" class="text-tail-icon" title="仅登录用户可见" alt="仅登录用户可见">
+
+
+
+</a>
+
+            </h1>
+            <div class="clear"></div>
+            <div class="postBody">
+                <div id="cnblogs_post_body" class="blogpost-body blogpost-body-html">
+<h2 class="lb-h5 blog-title"><a href="https://aws.amazon.com/blogs/big-data/">AWS Big Data Blog</a></h2>
+<h1 class="lb-h2 blog-post-title">Create a Healthcare Data Hub with AWS and Mirth Connect</h1>
+<p>by&nbsp;<span>Joseph Fontes&nbsp;| on&nbsp;12 JAN 2017&nbsp;| in&nbsp;<span class="blog-post-categories"><a title="View all posts in Amazon EMR" href="https://aws.amazon.com/blogs/big-data/category/analytics/amazon-emr/"><span>Amazon EMR</span></a>,&nbsp;<a title="View all posts in AWS Big Data" href="https://aws.amazon.com/blogs/big-data/category/big-data/"><span>AWS Big Data</span></a>&nbsp;|&nbsp;<a href="https://aws.amazon.com/blogs/big-data/create-a-healthcare-data-hub-with-aws-and-mirth-connect/">Permalink</a>&nbsp;|&nbsp;<a id="aws-comment-trigger-1276" href="https://commenting.awsblogs.com/embed.html?disqus_shortname=aws-big-data-blog&amp;disqus_identifier=1276&amp;disqus_title=Create+a+Healthcare+Data+Hub+with+AWS+and+Mirth+Connect&amp;disqus_url=https://aws.amazon.com/blogs/big-data/create-a-healthcare-data-hub-with-aws-and-mirth-connect/" data-lb-comp="aws-blog:commenting" data-sandbox-attr="allow-forms allow-scripts allow-popups allow-same-origin" data-lb-comp-registered="true"><span class="icon-comment">&nbsp;Comments</span></a>&nbsp;|&nbsp;<a href="https://aws.amazon.com/cn/blogs/big-data/create-a-healthcare-data-hub-with-aws-and-mirth-connect/#" data-share-dialog-toggle=""><span class="span icon-share">&nbsp;Share</span></a></span></span></p>
+<p>As anyone visiting their doctor may have noticed, gone are the days of physicians recording their notes on paper. Physicians are more likely to enter the exam room with a laptop than with paper and pen. This change is the byproduct of efforts to improve patient outcomes, increase efficiency, and drive population health. Pushing for these improvements has created many new data opportunities as well as challenges. Using a combination of AWS services and open source software, we can use these new datasets to work towards these goals and beyond.</p>
+<p>When you get a physical examination, your doctor’s office has an electronic chart with information about your demographics (name, date of birth, address, etc.), healthcare history, and current visit. When you go to the hospital for an emergency, a whole new record is created that may contain duplicate or conflicting information. A simple example would be that my primary care doctor lists me as&nbsp;<em>Joe</em>&nbsp;whereas the hospital lists me as&nbsp;<em>Joseph</em>.</p>
+<p>Providers record patient information across different software platforms. Each of these platforms can have varying implementations of complex healthcare data standards. Also, each system needs to communicate with a central repository called a health information exchange (HIE) to build a central, complete clinical record for each patient.</p>
+<p>In this post, I demonstrate the capability to consume different data types as messages, transform the information within the messages, and then use AWS service to take action depending on the message type.</p>
+<h1>Overview of Mirth Connect</h1>
+<p>Using open source technologies on AWS, you can build a system that transforms, stores, and processes this data as needed. The system can scale to meet the ever-increasing demands of modern medicine. The project that ingests and processes this data is called&nbsp;<a href="https://www.mirth.com/" rel="noopener noreferrer" target="_blank">Mirth Connect</a>.</p>
+<p>Mirth Connect is an open source, cross-platform, bidirectional, healthcare integration engine. This project is a standalone server that functions as a central point for routing and processing healthcare information.</p>
+<p>Running Mirth Connect on AWS provides the necessary scalability and elasticity to meet the current and future needs of healthcare organizations.</p>
+<h1>Healthcare data hub walkthrough</h1>
+<p>Healthcare information comes from various sources and can generate large amounts of data:</p>
+<ul>
+<li>Health information exchange (HIE)</li>
+<li>Electronic health records system (EHR)</li>
+<li>Practice management system (PMS)</li>
+<li>Insurance company systems</li>
+<li>Pharmacy systems</li>
+<li>Other source systems that can make data accessible</li>
+</ul>
+<p>Messages typically require some form of modification (transformation) to accommodate ingestion and processing in other systems. Using another project,&nbsp;<a href="https://www.healthit.gov/patients-families/blue-button/about-blue-button" rel="noopener noreferrer" target="_blank">Blue Button</a>, you can dissect large healthcare messages and locate the sections/items of interest. You can also convert those messages into other formats for storage and analysis.</p>
+<h2>Data types</h2>
+<p>The examples in this post focus on the following data types representing information made available from a typical healthcare organization:</p>
+<ul>
+<li><a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=185" rel="noopener noreferrer" target="_blank">HL7 (Health Level Seven) version 2 messages</a></li>
+<li><a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=258" rel="noopener noreferrer" target="_blank">CDA (Clinical Data Architecture)/CDD (Continuity of Care Document)</a></li>
+<li><a href="http://dicom.nema.org/" rel="noopener noreferrer" target="_blank">DICOM (Digital Imaging and Communications in Medicine)</a></li>
+<li>CSV (comma-separated variable)</li>
+</ul>
+<p>HL7 version 2 messages define both a message format and communication protocol for health information. They are broken into different message types depending on the information that they transmit.</p>
+<p>There are many message types available, such as ordering labs, prescription dispensing, billing, and more. During a routine doctor visit, numerous messages are created for each patient. This provides a lot of information but also a challenge in storage and processing. For a full list of message types, see&nbsp;<a href="https://www.hl7.org/special/committees/vocab/V26_Appendix_A.pdf" rel="noopener noreferrer" target="_blank">Data Definition Tables</a>, section A6. The two types used for this post are:</p>
+<ul>
+<li>ADT A01 (patient admission and visit notification)</li>
+</ul>
+<p><a href="https://github.com/awslabs/aws-big-data-blog/blob/master/aws-blog-mirth-healthcare-hub/samples/hl7-adt-a01.txt" rel="noopener noreferrer" target="_blank">View a sample HL7 ADT A01 message</a></p>
+<ul>
+<li>SIU S12 (new appointment booking)</li>
+</ul>
+<p><a href="https://github.com/awslabs/aws-big-data-blog/blob/master/aws-blog-mirth-healthcare-hub/samples/hl7-siu-s12.txt" rel="noopener noreferrer" target="_blank">View a sample SIU S12 message</a></p>
+<p>As you can see, this text is formatted as delimited data, where the delimiters are defined in the top line message called the MSG segment. Mirth Connect can parse these messages and communicate using the standard HL7 network protocol.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-016.gif" alt="o_mblog-016" width="800" height="196" class="size-full wp-image-1307 alignnone"></p>
+<p>&nbsp;</p>
+<p>CCD documents, on the other hand, were defined to give the patient a complete snapshot of their medical record. These documents are formatted in XML and use coding systems for procedures, diagnosis, prescriptions, and lab orders. In addition, they contain patient demographics, information about patient vital signs, and an ever-expanding list of other available patient information.</p>
+<p>Health insurance companies can make data available to healthcare organizations through various formats. Many times, the term&nbsp;<a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a>&nbsp;is used to identify not just comma-delimited data types but also data types with other delimiters in use. This data type is commonly used to send datasets from many different industries, including healthcare.</p>
+<p>Finally,&nbsp;<a href="https://en.wikipedia.org/wiki/DICOM" rel="noopener noreferrer" target="_blank">DICOM</a>&nbsp;is a standard used for medical imaging. This format is used for many different medical purposes such as x-rays, ultrasound, CT scans, MRI results, and more. These files can contain both image files as well as text results and details about the test. For many medical imaging tests, the image files can be quite large as they must contain very detailed information. The storage of these large files—in addition to the processing of the reporting data contained in the files—requires the ability to scale both storage and compute capacity. You must also use a storage option providing extensive data durability.</p>
+<h2>Infrastructure design</h2>
+<p>Before designing and deploying a healthcare application on AWS, make sure that you read through the&nbsp;<a href="https://d0.awsstatic.com/whitepapers/compliance/AWS_HIPAA_Compliance_Whitepaper.pdf" rel="noopener noreferrer" target="_blank">AWS HIPAA Compliance whitepaper</a>. This covers the information necessary for processing and storing patient health information (PHI).</p>
+<p>To meet the needs of scalability and elasticity with the Mirth Connect application, use Amazon EC2 instances with Amazon EBS storage. This allows you to take advantage of AWS features such as Auto Scaling for instances. EBS allows you to deploy encrypted volumes, readily provision multiple block devices with varying sizes and throughput, and create snapshots for backups.</p>
+<p>Mirth Connect also requires a database backend that must be secure, highly available, and scalable. To meet these needs with a HIPAA-eligible AWS service, use Amazon RDS with MySQL.</p>
+<p>Next, implement JSON as the standard format for the message data storage to facilitate easier document query and retrieval. With the core functionality of Mirth Connect as well as other open source software offerings, you can convert each message type to JSON. The storage and retrieval of these converted messages requires the use of a database. If you were to use a relational database, you would either need to store blobs of text for items/fields not yet defined or create each column that may be needed for a message.</p>
+<p>With the ever-updating standards and increases in data volume and complexity, it can be advantageous to use a database engine that can automatically expand the item schema. For this post, use&nbsp;<a href="https://aws.amazon.com/dynamodb" rel="noopener noreferrer" target="_blank">Amazon DynamoDB</a>. DynamoDB is a fully managed, fast, and flexible NoSQL database service providing scalable and reliable low latency data access.</p>
+<p>If you use DynamoDB with JSON, you don’t have to define each data element field of a database message before insert. Because DynamoDB is a managed service, it eliminates the administrative overhead of deploying and maintaining a distributed, scalable NoSQL database cluster. For more information about the addition of the JSON data type to DynamoDB, see the&nbsp;<a href="https://aws.amazon.com/blogs/aws/dynamodb-update-json-and-more/" rel="noopener noreferrer" target="_blank">Amazon DynamoDB Update – JSON, Expanded Free Tier, Flexible Scaling, Larger Items</a>&nbsp;AWS Blog post.</p>
+<p>The file storage requirements for running a healthcare integration engine can include the ability to store large numbers of small files, large numbers of large files, and everything in between. To ensure that the requirements for available storage space and data durability are met, use&nbsp;<a href="https://aws.amazon.com/s3" rel="noopener noreferrer" target="_blank">Amazon S3</a>&nbsp;to store the original files as well as processed files and images.</p>
+<p>Finally, use some additional AWS services to further facilitate automation. One of these examples is&nbsp;<a href="https://aws.amazon.com/cloudwatch" rel="noopener noreferrer" target="_blank">Amazon CloudWatch</a>. By sending Mirth Connect metrics to CloudWatch, we can enable AWS alerts and actions that ensure optimal application availability, efficiency, and responsiveness. An example Mirth Connect implementation design is available in the following diagram:</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_aws-service-diagram-2.gif" alt="o_aws-service-diagram-2" width="800" height="595" class="alignnone size-full wp-image-1309"></p>
+<h2>AWS service configuration</h2>
+<p>When you launch the EC2 instance, make sure to encrypt volumes that contain patient information. Also, it would be a good practice to also encrypt the boot partition. For more information, see the&nbsp;<a href="https://aws.amazon.com/blogs/aws/new-encrypted-ebs-boot-volumes/" rel="noopener noreferrer" target="_blank">New – Encrypted EBS Boot Volumes</a>&nbsp;AWS Blog post. I am storing the protected information on a separate encrypted volume to make for easier snapshots, mounted as&nbsp;<em>/mirth/</em>. For more information, see&nbsp;<a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html" rel="noopener noreferrer" target="_blank">Amazon EBS Encryption</a>.</p>
+<p>Also, launch an Amazon RDS instance to store the Mirth Connect configuration information, message information, and logs. For more information, see&nbsp;<a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Overview.Encryption.html" rel="noopener noreferrer" target="_blank">Encrypting Amazon RDS Resources</a>.</p>
+<p>During the configuration and deployment of your RDS instance, update the&nbsp;<em>max_allowed_packet</em>&nbsp;value to accommodate the larger size of DICOM images. Change this setting by creating a parameter group for Amazon RDS MySQL/MariaDB/Aurora. For more information, see&nbsp;<a href="http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html" rel="noopener noreferrer" target="_blank">Working with DB Parameter Groups</a>. I have set the value to 1073741824.</p>
+<p>After the change is complete, you can compare database parameter groups to ensure that the variable has been set properly. In the Amazon RDS console, choose&nbsp;Parameter groups&nbsp;and check the box next to the default parameter group for your database and the parameter group that you created. Choose&nbsp;Compare Parameters.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-017.gif" alt="o_mblog-017" width="600" height="152" class="alignnone size-full wp-image-1310"></p>
+<p>Use an Amazon DynamoDB table to store JSON-formatted message data. For more information, see&nbsp;<a href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/SampleData.html" rel="noopener noreferrer" target="_blank">Creating Tables and Loading Sample Data</a>.</p>
+<p>For your table name, use&nbsp;<em>mirthdata</em>. In the following examples, I used&nbsp;<em>mirthid&nbsp;</em>as the primary key as well as a sort key named&nbsp;<em>mirthdate.&nbsp;</em>The sort key contains the date and time that each message is processed.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-009.gif" alt="o_mblog-009" width="800" height="383" class="alignnone size-full wp-image-1311"></p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-018.gif" alt="o_mblog-018" width="800" height="313" class="alignnone size-full wp-image-1312"></p>
+<p>Set up an Amazon S3 bucket to store your messages, images, and other information. Make your bucket name globally unique. For this post, I used the bucket named mirth-blog-data; you can create a name for your bucket and update the Mirth Connect example configuration to reflect that value. For more information, see&nbsp;<a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingEncryption.html" rel="noopener noreferrer" target="_blank">Protecting Data Using Encryption</a>.</p>
+<h2>Mirth Connect deployment</h2>
+<p>You can find installation packaging options for Mirth Connect at&nbsp;<a href="https://www.mirth.com/Downloads" rel="noopener noreferrer" target="_blank">Downloads</a>. Along with the Mirth Connect installation, also download and install the Mirth Connect command line interface. For information about installation and initial configuration steps, see the&nbsp;<a href="http://www.mirthcorp.com/community/wiki/display/mirth/Getting+Started+Guide" rel="noopener noreferrer" target="_blank">Mirth Connect Getting Started Guide</a>.</p>
+<p>After it’s installed, ensure that the Mirth Connect service starts up automatically on reboot, and then start the service.</p>
+<p>&nbsp;</p>
+<div class="code-toolbar">
+<pre class="language-bash codeblock"><code class="language-bash hljs"><span class="token function">chkconfig --add mcservice
+/etc/init.d/mcservice start</span></code></pre>
+<div class="toolbar">
+<div class="toolbar-item">Bash</div>
+</div>
+</div>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-001.gif" alt="o_mblog-001" width="552" height="103" class="alignnone size-full wp-image-1313"></p>
+<p>The&nbsp;<em>Mirth Connect Getting Started Guide</em>&nbsp;covers the initial configuration steps and installation. On first login, you are asked to configure the admin user and to set a password.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-004.gif" alt="o_mblog-004" width="800" height="370" class="alignnone size-full wp-image-1314"></p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-005.gif" alt="o_mblog-005" width="388" height="271" class="alignnone size-full wp-image-1315"></p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-006.gif" alt="o_mblog-006" width="800" height="451" class="alignnone size-full wp-image-1316"></p>
+<p>You are now presented with the Mirth Connect administrative console. You can view an example console with a few deployed channels in the following screenshot.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-019.gif" alt="o_mblog-019" width="800" height="453" class="alignnone size-full wp-image-1317"></p>
+<p>By default, Mirth Connect uses the Derby database on the local instance for configuration and message storage. Your next agenda item is to switch to a MySQL-compatible database with Amazon RDS. For information about changing the Mirth Connect database type, see&nbsp;<a href="http://www.mirthcorp.com/community/wiki/display/mirth/Moving+Mirth+Connect+configuration+from+one+database+to+another" rel="noopener noreferrer" target="_blank">Moving Mirth Connect configuration from one database to another</a>&nbsp;on the Mirth website.</p>
+<p>Using the Mirth Connect command line interface (CLI), you can perform various functions for CloudWatch integration. Run the&nbsp;<em>channel list&nbsp;</em>command from an SSH console on your Mirth Connect EC2 instance.</p>
+<p>In the example below, replace&nbsp;<em>USER</em>&nbsp;with the user name to use for connection (typically,&nbsp;<em>admin</em>&nbsp;if you have not created other users). Replace PASSWORD with the password that you set for the associated user. After you are logged in, run the command&nbsp;<em>channel list</em>&nbsp;to ensure that the connection is working properly:</p>
+<p>&nbsp;</p>
+<div class="code-toolbar">
+<pre class="language-bash codeblock"><code class="language-bash hljs">mccommand -a https://127.0.0.1:8443 -u <span class="token environment constant">USER -p PASSWORD
+channel list
+quit</span></code></pre>
+<div class="toolbar">
+<div class="toolbar-item">Bash</div>
+</div>
+</div>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-020.gif" alt="o_mblog-020" width="800" height="186" class="alignnone size-full wp-image-1318"></p>
+<p>Using the command line interface, you can create bash scripts using the<a href="http://docs.aws.amazon.com/cli/latest/reference/cloudwatch/put-metric-data.html" rel="noopener noreferrer" target="_blank">&nbsp;CloudWatch put-metric-data function</a>. This allows you to push Mirth Connect metrics directly into CloudWatch. From there, you could build alerts and actions based on this information.</p>
+<p>&nbsp;</p>
+<div class="code-toolbar">
+<pre class="language-bash codeblock"><code class="language-bash hljs"><span class="token builtin class-name"><span class="hljs-built_in">echo</span> <span class="token string"><span class="hljs-string">"dump stats </span><span class="token entity" title="\&quot;"><span class="hljs-string">\"/tmp/stats.txt</span><span class="token entity" title="\&quot;"><span class="hljs-string">\""</span> <span class="token operator">&gt; m-cli-dump.txt
+mccommand -a https://127.0.0.1:8443 -u admin -p <span class="token variable"><span class="hljs-variable">$MIRTH_PASS</span> -s m-cli-dump.txt
+<span class="token function">cat /tmp/stats.txt</span></span></span></span></span></span></span></code></pre>
+<div class="toolbar">
+<div class="toolbar-item">Bash</div>
+</div>
+</div>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-021.gif" alt="o_mblog-021" width="800" height="229" class="alignnone size-full wp-image-1319"></p>
+<p>More information for the administration and configuration of your new Mirth Connect implementation can be found on both the&nbsp;<a href="http://www.mirthcorp.com/community/wiki/display/mirth?src=breadcrumbs" rel="noopener noreferrer" target="_blank">Mirth Connect Wiki</a>&nbsp;as well as the&nbsp;<a href="https://bridge.nextgen.com/media/3244/mirth-data-sheet-mirth-connect-3-4-user-guide.pdf" rel="noopener noreferrer" target="_blank">PDF user guide</a>.</p>
+<h2>Example configuration</h2>
+<p>Mirth Connect is designed around the concept of channels. Each channel has a source and one or more destinations. In addition, messages accepted from the source can be modified (transformed) when they are ingested at the source, or while they are being sent to their destination. The guides highlighted above as well as the&nbsp;<a href="http://www.mirthcorp.com/community/wiki/display/mirth?src=breadcrumbs" rel="noopener noreferrer" target="_blank">Mirth Connect Wiki</a>&nbsp;discuss these concepts and their configuration options.</p>
+<p>The example configuration has been made available as independent channels available for download. You are encouraged to import and review the channel details to understand the design of the message flow and transformation. For a full list of example channels, see&nbsp;<a href="https://github.com/awslabs/aws-big-data-blog/tree/master/aws-blog-mirth-healthcare-hub" rel="noopener noreferrer" target="_blank">mirth-channels</a>&nbsp;in the Big Data Blog GitHub repository.</p>
+<p>Channels:</p>
+<ul>
+<li>CCD-Pull – Processes the files in the directory</li>
+<li>CCD-to-BB – Uses Blue Button to convert CCD into JSON</li>
+<li>CCD-to-S3 – Sends files to S3</li>
+<li>BB-to-DynamoDB – Inserts Blue Button JSON into DynamoDB tables</li>
+<li>DICOM-Pull – Processes the DICOM files from the directory</li>
+<li>DICOM-Image – Process DICOM embedded images and stores data in Amazon S3 and Amazon RDS</li>
+<li>DICOM-to-JSON – Uses DCM4CHE to convert XML into JSON. Also inserts JSON into DynamoDB tables and saves the DICOM image attachment and original file in S3</li>
+<li>HL7-to-DynamoDB – Inserts JSON data into Amazon DynamoDB</li>
+<li>HL7-Inbound – Pulls HL7 messages into engine and uses NodeJS web service to convert data into JSON</li>
+</ul>
+<p>For these examples, you are using file readers and file writers as opposed to the standard HL7 and DICOM network protocols. This allows you to test message flow without setting up HL7 and DICOM network brokers. To use the example configurations, create the necessary local file directories:</p>
+<pre>mkdir -p /mirth/app/{s3,ccd,bb,dicom,hl7}/{input,output,processed,raw}</pre>
+<h2>Blue Button library</h2>
+<p><a href="https://www.healthit.gov/patients-families/blue-button/about-blue-button" rel="noopener noreferrer" target="_blank">Blue Button</a>&nbsp;is an initiative to make patient health records available and readable to patients. This initiative has driven the creation of a&nbsp;<a href="https://github.com/blue-button/bluebutton.js/" rel="noopener noreferrer" target="_blank">JavaScript library</a>&nbsp;that you use to parse the CCD (XML) documents into JSON. This project can be used to both parse and create CCD documents.</p>
+<p>For this post, run this library as a service using Node.js. This library is available for installation as&nbsp;<em>blue-button</em>&nbsp;via the Node.js package manager. For details about the package, see the&nbsp;<a href="https://www.npmjs.com/package/blue-button" rel="noopener noreferrer" target="_blank">npmjs</a>&nbsp;website. Instructions for the installation of Node.js via a package manager can be found on&nbsp;<a href="https://nodejs.org/en/download/package-manager/" rel="noopener noreferrer" target="_blank">nodejs.org</a>.</p>
+<p>For a simple example of running a Blue Button web server on the local Amazon EC2 instance with the test data, see the&nbsp;<a href="https://github.com/awslabs/aws-big-data-blog/tree/master/aws-blog-mirth-healthcare-hub/bb-webapp" rel="noopener noreferrer" target="_blank">bb-conversion-listener.js</a>&nbsp;script in the Big Data Blog repository.</p>
+<h2>Processing clinical messages</h2>
+<p>The flow diagram below illustrates the flow of CCDA/CCD messages as they are processed through Mirth Connect.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_flow-ccd-1.gif" alt="o_flow-ccd-1" width="800" height="508" class="alignnone size-full wp-image-1320"></p>
+<p>Individual message files are placed in the “/mirth/app/ccd/input/” directory. From there, the channel, “CCD-Pull” reads the file and then transfers to another directory for processing. The message data is then sent to the Mirth Connect channel “CCD-to-S3”, which then saves a copy of the message to S3 while also creating an entry for each item in Amazon RDS. This allows you to create a more efficient file-naming pattern for S3 while still maintaining a link between the original file name and the new S3 key.</p>
+<p>Next, the Mirth Connect channel “CCD-to-BB” passes the message data via an HTTP POST to a web service running on your Mirth Connect instance using the&nbsp;<a href="https://github.com/blue-button/bluebutton.js/" rel="noopener noreferrer" target="_blank">Blue Button</a>&nbsp;open source healthcare project. The HTTP response contains the JSON-formatted translation of the document you sent. This JSON data can now be inserted into a DynamoDB table. When you are building a production environment, this web service could be separated onto its own instance and set up to run behind an Application Load Balancer with Auto Scaling.</p>
+<p>You can find sample files online for processing across different locations. Try the following for CCD and DICOM examples:</p>
+<ul>
+<li><a href="https://github.com/chb/sample_ccdas" rel="noopener noreferrer" target="_blank">sample_ccdas</a>&nbsp;GitHub repository</li>
+<li><a href="http://www.osirix-viewer.com/resources/dicom-image-library/" rel="noopener noreferrer" target="_blank">OsiriX DICOM Image Library</a></li>
+</ul>
+<h1>AWS service and Mirth integration</h1>
+<p>To integrate with various AWS services, Mirth Connect can use the AWS SDK for Java by invoking custom Java code. For more information, see&nbsp;<a href="http://www.mirthcorp.com/community/wiki/display/mirth/How+to+create+and+invoke+custom+Java+code+in+Mirth+Connect" rel="noopener noreferrer" target="_blank">How to create and invoke custom Java code in Mirth Connect</a>&nbsp;on the Mirth website.</p>
+<p>For more information about the deployment and use of the AWS SDK for Java, see&nbsp;<a href="https://aws.amazon.com/developers/getting-started/java/" rel="noopener noreferrer" target="_blank">Getting Started with the AWS SDK for Java</a>.</p>
+<p>To facilitate the use of the example channels, a sample Java class implementation for use with Mirth Connect can be found at&nbsp;<a href="https://github.com/awslabs/aws-big-data-blog/tree/master/aws-blog-mirth-healthcare-hub">https://github.com/awslabs/aws-big-data-blog/tree/master/aws-blog-mirth-healthcare-hub</a>.</p>
+<p>For more information about building the code example using Maven, see&nbsp;<a href="http://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-project-maven.html" rel="noopener noreferrer" target="_blank">Using the SDK with Apache Maven</a>.</p>
+<p>You can view the addition of these libraries to each channel in the following screenshots.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-011.gif" alt="o_mblog-011" width="800" height="614" class="alignnone size-full wp-image-1323"></p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-012.gif" alt="o_mblog-012" width="800" height="605" class="alignnone size-full wp-image-1324"></p>
+<p>After test messages are processed, you can view the contents in DynamoDB.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-015.gif" alt="o_mblog-015" width="500" height="601" class="alignnone size-full wp-image-1327"></p>
+<h1>DICOM messages</h1>
+<p>The&nbsp;<a href="http://www.dcm4che.org/" rel="noopener noreferrer" target="_blank">dcm4che project</a>&nbsp;is a collection of&nbsp;<a href="https://github.com/dcm4che/dcm4che" rel="noopener noreferrer" target="_blank">open source tools supporting the DICOM standard</a>. When a DICOM message is passed through Mirth Connect, the text content is transformed to XML with the image included as an attachment. You convert the DICOM XML into JSON for storage in DynamoDB and store both the original DICOM message as well as the separate attachment in S3, using the AWS SDK for Java and the&nbsp;<a href="http://www.dcm4che.org/" rel="noopener noreferrer" target="_blank">dcm4che</a>&nbsp;project. The source code for dcm4che can be found in the&nbsp;<a href="https://github.com/dcm4che/dcm4che" rel="noopener noreferrer" target="_blank">dcm4che</a>&nbsp;GitHub repository.</p>
+<p>Readers can find the example dcm4che functions used in this example in the&nbsp;<a href="https://github.com/awslabs/aws-big-data-blog/tree/master/aws-blog-mirth-healthcare-hub/mirth-aws-dicom-app" rel="noopener noreferrer" target="_blank">mirth-aws-dicom-app</a>&nbsp;in the AWS Big Data GitHub repository.</p>
+<p>The following screenshots are examples of the DICOM message data converted to XML in Mirth Connect, along with the view of the attached medical image. Also, you can view an example of the data stored in DynamoDB.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-013.gif" alt="o_mblog-013" width="800" height="441" class="alignnone size-full wp-image-1325"></p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_mblog-014.gif" alt="o_mblog-014" width="800" height="670" class="alignnone size-full wp-image-1326"></p>
+<p>&nbsp;</p>
+<p>The DICOM process flow can be seen in the following diagram.</p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_flow-dicom-1.gif" alt="o_flow-dicom-1" width="800" height="508" class="alignnone size-full wp-image-1322"></p>
+<h1>Conclusion</h1>
+<p>With the combination of channels, you now have your original messages saved and available for archive via Amazon Glacier. You also have each message stored in DynamoDB as discrete data elements, with references to each message stored in Amazon RDS for use with message correlation. Finally, you have your transformed messages, processed messages, and image attachments saved in S3, making them available for direct use or archiving.</p>
+<p>Later, you can implement analysis of the data with Amazon EMR. This would allow the processing of information directly from S3 as well as the data in Amazon RDS and DynamoDB.</p>
+<p>With an open source health information hub, you have a centralized repository for information traveling throughout healthcare organizations, with community support and development constantly improving functionality and capabilities. Using AWS, health organizations are able to focus on building better healthcare solutions rather than building data centers.</p>
+<p>If you have questions or suggestions, please comment below.</p>
+<hr>
+<h3>About the Author</h3>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/joe_fontes_90.jpg" alt="joe_fontes_90" width="90" height="90" class="alignleft size-full wp-image-1331">Joseph Fontes is a Solutions Architect at AWS with the Emerging Partner program.&nbsp;He works with AWS Partners of all sizes, industries, and technologies to facilitate technical adoption of the AWS platform with emphasis on efficiency, performance, reliability, and scalability. Joe has a passion for technology and open source which is shared with his loving wife and two sons.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<hr>
+<h3>Related</h3>
+<p><a href="https://aws.amazon.com/blogs/big-data/how-eliza-corporation-moved-healthcare-data-to-the-cloud/" rel="noopener noreferrer" target="_blank">How Eliza Corporation Moved Healthcare Data to the Cloud</a></p>
+<p><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/o_eliza_1-300x169.gif" alt="o_eliza_1" width="300" height="169" class="alignnone size-medium wp-image-516"></p>
+<div class="blog-tag-list">TAGS:&nbsp;<span><a href="https://aws.amazon.com/blogs/big-data/tag/amazon-emr/" rel="tag">Amazon EMR</a>,&nbsp;<a href="https://aws.amazon.com/blogs/big-data/tag/healthcare/" rel="tag">Healthcare</a>,&nbsp;<a href="https://aws.amazon.com/blogs/big-data/tag/mirth-connect/" rel="tag">Mirth Connect</a></span></div>
+<div class="blog-tag-list">&nbsp;</div>
+<div class="blog-tag-list"><span>https://github.com/amazon-archives/aws-big-data-blog/tree/master/aws-blog-mirth-healthcare-hub</span></div>
+<div class="blog-tag-list"><span>https://github.com/chb/sample_ccdas/tree/master/Cerner%20Samples</span></div>
+</div>
+<div id="MySignature" style="display: block;">潤沁網路大學</div>
+<div class="clear"></div>
+<div id="blog_post_info_block"><div id="BlogPostCategory">
+    分类: 
+            <a href="https://www.cnblogs.com/runqinshiye/category/1923843.html" target="_blank">Mirth</a></div>
+<div id="EntryTag">
+    标签: 
+            <a href="https://www.cnblogs.com/runqinshiye/tag/Mirth/">Mirth</a></div>
+
+    <div id="blog_post_info">
+<div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(14500926,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+        <a id="green_channel_follow" onclick="follow(&#39;e9f89f8c-4a14-4760-e3cd-08d6cab4827b&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/runqinshiye/" target="_blank"><img src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/20190429104559.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="https://home.cnblogs.com/u/runqinshiye/">潤沁網路大學</a><br>
+            <a href="https://home.cnblogs.com/u/runqinshiye/followees/">关注 - 0</a><br>
+            <a href="https://home.cnblogs.com/u/runqinshiye/followers/">粉丝 - 2</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(14500926,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(14500926,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+    <div class="clear"></div>
+    <div id="post_next_prev"></div>
+</div>
+            </div>
+            <div class="postDesc">posted @ 
+<span id="post-date">2021-03-08 17:33</span>&nbsp;
+<a href="https://www.cnblogs.com/runqinshiye/">潤沁網路大學</a>&nbsp;
+阅读(<span id="post_view_count">0</span>)&nbsp;
+评论(<span id="post_comment_count">0</span>)&nbsp;
+<a href="https://i.cnblogs.com/EditArticles.aspx?postid=14500926" rel="nofollow">编辑</a>&nbsp;
+<a href="javascript:void(0)" onclick="AddToWz(14500926);return false;">收藏</a></div>
+        </div>
+	    
+	    
+    </div><!--end: topics 文章、评论容器-->
+</div>
+<script src="./Create a Healthcare Data Hub with AWS and Mirth Connect - 潤沁網路大學 - 博客园_files/highlight.min.js.下载"></script>
+<script>markdown_highlight();</script>
+<script>
+    var allowComments = false, cb_blogId = 512772, cb_blogApp = 'runqinshiye', cb_blogUserGuid = 'e9f89f8c-4a14-4760-e3cd-08d6cab4827b';
+    var cb_entryId = 14500926, cb_entryCreatedDate = '2021-03-08 17:33', cb_postType = 2;
+    updatePostStats(
+        [cb_entryId],
+        function(id, count) { $("#post_view_count").text(count) },
+        function(id, count) { $("#post_comment_count").text(count) })
+    zoomManager.apply("#cnblogs_post_body img:not(.code_img_closed):not(.code_img_opened)");
+</script>
+<a name="!comments"></a>
+<div id="blog-comments-placeholder"></div>
+<div id="comment_form" class="commentform">
+    <a name="commentform"></a>
+    <div id="divCommentShow"></div>
+    <div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/runqinshiye/articles/14500926.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/runqinshiye/articles/14500926.html#top">返回顶部</a></div>
+    <div id="comment_form_container" style="visibility: visible;">（评论功能已被禁用）</div>
+    <div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+    <div id="ad_t2"><a href="http://www.uccpsoft.com/index.htm" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-ucancode&#39;)">【推荐】大型组态、工控、仿真、CAD\GIS 50万行VC++源码免费下载!</a><br><a href="https://www.cnblogs.com/cmt/p/14544943.html" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-AWS研讨会&#39;)">【推荐】亚马逊云科技在线研讨会：借助图神经网络实现实时欺诈检测</a><br><a href="https://brands.cnblogs.com/huawei" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-华为专区&#39;)">【推荐】华为开发者联盟--邀友同注册，解锁阶梯“豪”礼</a><br><a href="http://www.moojnn.com/?source=bokeyuan" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-魔镜&#39;)">【推荐】限时秒杀！国云大数据魔镜，企业级云分析平台</a><br></div>
+    <div id="opt_under_post"></div>
+    <div id="cnblogs_c1" class="under-post-card">
+        <div id="div-gpt-ad-1592365906576-0" style="width: 300px; height: 250px;"></div>
+    </div>
+    <div id="under_post_card1"><div class="under-post-card"><b>园子动态</b>：<br>· <a href="https://www.cnblogs.com/cmt/p/14217355.html" target="_blank">发起一个开源项目：博客引擎 fluss</a><br>· <a href="https://www.cnblogs.com/cmt/p/13900203.html" target="_blank">云计算之路-新篇章-出海记：开篇</a><br>· <a href="https://www.cnblogs.com/dudu/articles/14072887.html" target="_blank">博客园2005年6月1日首页截图</a><br></div></div>
+    <div id="cnblogs_c2" class="under-post-card">
+        <div id="div-gpt-ad-1592366332455-0" style="width: 468px; height: 60px;"></div>
+    </div>
+    <div id="under_post_card2"><div class="itnews under-post-card">
+    <b>最新新闻</b>：
+    <br>
+ ·          <a href="https://news.cnblogs.com/n/690421/" target="_blank">黄峥勇退：一年之内卸任CEO和董事长 想去“寻找幸福”</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/690422/" target="_blank">百度二次上市，三重价值</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/690420/" target="_blank">快手三年游戏路，路在何处？</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/690419/" target="_blank">谷歌涂鸦庆祝爱尔兰圣帕特里克节</a>
+        <br>
+ ·          <a href="https://news.cnblogs.com/n/690418/" target="_blank">NASA的SMA轮胎技术即将商用 30倍于钢的可恢复应变</a>
+        <br>
+    » <a href="https://news.cnblogs.com/" title="IT 新闻" target="_blank">更多新闻...</a>
+</div></div>
+    <div id="HistoryToday" class="under-post-card"></div>
+    <script type="text/javascript">
+       var commentManager = new blogCommentManager();
+       commentManager.renderComments(0);
+       fixPostBody();
+       deliverBigBanner();
+       deliverT2();
+       deliverC1C2();
+       loadNewsAndKb();
+       loadBlogSignature();
+LoadPostCategoriesTags(cb_blogId, cb_entryId);       LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+       GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+       loadOptUnderPost();
+       GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    </script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+	<div id="sideBar">
+		<div id="sideBarMain">
+			<div id="sidebar_news" class="newsItem"><!--done-->
+<h3 class="catListTitle">公告</h3>
+
+<div id="blog-news">
+    
+    <div id="profile_block">
+        昵称：
+        <a href="https://home.cnblogs.com/u/runqinshiye/">
+            潤沁網路大學
+        </a>
+        <br>
+        园龄：
+        <a href="https://home.cnblogs.com/u/runqinshiye/" title="入园时间：2019-04-29">
+            1年10个月
+        </a>
+        <br>
+        粉丝：
+        <a href="https://home.cnblogs.com/u/runqinshiye/followers/">
+            2
+        </a>
+        <br>
+        关注：
+        <a href="https://home.cnblogs.com/u/runqinshiye/followees/">
+            0
+        </a>
+        <div id="p_b_follow"></div>
+        <script>getFollowStatus('e9f89f8c-4a14-4760-e3cd-08d6cab4827b');</script>
+    </div>
+</div>
+
+</div>
+<div id="sidebar_c3"></div>
+			<div id="blog-calendar" style="">
+
+<table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar" border="0">
+    <tbody>
+        <tr>
+            <td colspan="7">
+                <table class="CalTitle" cellspacing="0" border="0">
+                    <tbody>
+                        <tr>
+                            <td class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2021/02/27&#39;); return false;">&lt;</a>
+                            </td>
+                            <td align="center">2021年3月</td>
+                            <td align="right" class="CalNextPrev">
+                                <a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2021/04/27&#39;); return false;">&gt;</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    <tr>
+        <th class="CalDayHeader" align="center" abbr="日" scope="col">日</th>
+        <th class="CalDayHeader" align="center" abbr="一" scope="col">一</th>
+        <th class="CalDayHeader" align="center" abbr="二" scope="col">二</th>
+        <th class="CalDayHeader" align="center" abbr="三" scope="col">三</th>
+        <th class="CalDayHeader" align="center" abbr="四" scope="col">四</th>
+        <th class="CalDayHeader" align="center" abbr="五" scope="col">五</th>
+        <th class="CalDayHeader" align="center" abbr="六" scope="col">六</th>
+    </tr>
+            <tr>
+                            <td class="CalOtherMonthDay" align="center">28</td>
+                        <td class="" align="center">
+                            1
+                        </td>
+                        <td class="" align="center">
+                            2
+                        </td>
+                        <td class="" align="center">
+                            3
+                        </td>
+                        <td class="" align="center">
+                            4
+                        </td>
+                        <td class="" align="center">
+                            5
+                        </td>
+                    <td class="CalWeekendDay" align="center">
+                        6
+                    </td>
+            </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            7
+                        </td>
+                            <td class="" align="center">
+                                8
+                            </td>
+                            <td class="" align="center">
+                                9
+                            </td>
+                            <td class="" align="center">
+                                10
+                            </td>
+                            <td class="" align="center">
+                                11
+                            </td>
+                            <td class="" align="center">
+                                12
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            13
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            14
+                        </td>
+                            <td class="" align="center">
+                                15
+                            </td>
+                            <td class="" align="center">
+                                16
+                            </td>
+                            <td class="" align="center">
+                                17
+                            </td>
+                            <td class="" align="center">
+                                18
+                            </td>
+                            <td class="" align="center">
+                                19
+                            </td>
+                        <td class="CalWeekendDay" align="center">
+                            20
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            21
+                        </td>
+                            <td class="" align="center">
+                                22
+                            </td>
+                            <td class="" align="center">
+                                23
+                            </td>
+                            <td class="" align="center">
+                                24
+                            </td>
+                            <td class="" align="center">
+                                25
+                            </td>
+                            <td class="" align="center">
+                                26
+                            </td>
+                        <td class="CalTodayDay" align="center">
+                            27
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalWeekendDay" align="center">
+                            28
+                        </td>
+                            <td class="" align="center">
+                                29
+                            </td>
+                            <td class="" align="center">
+                                30
+                            </td>
+                            <td class="" align="center">
+                                31
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                1
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                2
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            3
+                        </td>
+                </tr>
+                <tr>
+                        <td class="CalOtherMonthDay" align="center">
+                            4
+                        </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                5
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                6
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                7
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                8
+                            </td>
+                            <td class="CalOtherMonthDay" align="center">
+                                9
+                            </td>
+                        <td class="CalOtherMonthDay" align="center">
+                            10
+                        </td>
+                </tr>
+    </tbody>
+</table></div><script>loadBlogDefaultCalendar();</script>			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><!-- 搜索 -->
+<div id="sidebar_search" class="sidebar-block">
+    <div id="sidebar_search" class="mySearch">
+        <h3 class="catListTitle">搜索</h3>
+        <div id="sidebar_search_box">
+            <div id="widget_my_zzk" class="div_my_zzk">
+                <input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk">
+            </div>
+            <div id="widget_my_google" class="div_my_zzk">
+                <input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 常用链接 -->
+<div id="sidebar_shortcut" class="sidebar-block"><div class="catListLink">
+<h3 class="catListTitle">
+常用链接
+</h3>
+<ul>
+    
+<li><a href="https://www.cnblogs.com/runqinshiye/p/" title="我的博客的随笔列表">我的随笔</a></li>
+<li><a href="https://www.cnblogs.com/runqinshiye/MyComments.html" title="我的发表过的评论列表">我的评论</a></li>
+<li><a href="https://www.cnblogs.com/runqinshiye/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li>
+<li><a href="https://www.cnblogs.com/runqinshiye/RecentComments.html" title="我的博客的评论列表">最新评论</a></li>
+<li><a href="https://www.cnblogs.com/runqinshiye/tag/" title="我的博客的标签列表">我的标签</a></li>
+
+</ul>
+</div>
+
+</div>
+
+<!-- 最新随笔 -->
+
+
+<!-- 我的标签 -->
+<div id="sidebar_toptags" class="sidebar-block"><div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+        <li>
+            <a href="https://www.cnblogs.com/runqinshiye/tag/Mirth/">Mirth<span class="tag-count">(18)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/runqinshiye/tag/HL7/">HL7<span class="tag-count">(7)</span></a>
+        </li>
+        <li>
+            <a href="https://www.cnblogs.com/runqinshiye/tag/DataBase/">DataBase<span class="tag-count">(2)</span></a>
+        </li>
+    
+
+</ul>
+</div>
+
+</div>
+
+<!-- 积分与排名 -->
+
+
+<!-- 随笔分类、随笔档案、文章分类、新闻分类、相册、链接 -->
+<div id="sidebar_categories">
+
+    <div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔分类
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/category/1936803.html" rel="" target="">
+    DataBase(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/category/1923844.html" rel="" target="">
+    HL7(7)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/category/1923843.html" rel="" target="">
+    Mirth(15)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle">
+            
+随笔档案
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/archive/2021/02.html" rel="" target="">
+    2021年2月(2)
+</a>
+ 
+
+                </li>                
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/archive/2021/01.html" rel="" target="">
+    2021年1月(20)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+    <div id="sidebar_articlecategory" class="catListArticleCategory sidebar-block">
+        <h3 class="catListTitle">
+            
+文章分类
+
+
+
+        </h3>
+
+        <ul>
+
+                <li data-category-list-item-visible="true" style="display: block">
+                    
+<a href="https://www.cnblogs.com/runqinshiye/category/1455173.html" rel="" target="">
+    Mirth(3)
+</a>
+ 
+
+                </li>                
+            
+        </ul>
+
+
+    </div>    
+</div>
+
+<!-- 最新评论 -->
+<div id="sidebar_recentcomments" class="sidebar-block"><div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div class="RecentCommentBlock">
+        <ul>
+                    <li class="recent_comment_title"><a href="https://www.cnblogs.com/runqinshiye/p/14327552.html">1. Re:第八課-Channel Study For Caller Custom JAR Lib</a></li>
+                    <li class="recent_comment_body"><p>受益匪浅！！！</p>
+</li>
+                    <li class="recent_comment_author">--少年郎1</li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+
+<!-- 阅读排行榜 -->
+<div id="sidebar_topviewedposts" class="sidebar-block"><div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14324742.html">
+                            1. HL7传输协议(161)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14273748.html">
+                            2. 第壹課-Install：Mirth Connect在Win10下的安装步骤(99)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/10791939.html">
+                            3. 开篇:Mirth Connect系统集成与数据交换引擎(95)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14324402.html">
+                            4. HL7标准的版本(75)
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14303253.html">
+                            5. 第三課：信道学习Source Connect Reader &amp; Destinations File Writer(60)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 评论排行榜 -->
+<div id="sidebar_topcommentedposts" class="sidebar-block"><div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock">
+        <ul style="word-break:break-all">
+                    <li>
+                        <a href="https://www.cnblogs.com/runqinshiye/p/14327552.html">
+                            1. 第八課-Channel Study For Caller Custom JAR Lib(1)
+                        </a>
+                    </li>
+        </ul>
+    </div>
+</div>
+
+</div>
+
+<!-- 推荐排行榜 -->
+<div id="sidebar_topdiggedposts" class="sidebar-block"></div></div>
+                    <script>loadBlogSideColumn();</script>
+			</div>			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		<!--done-->
+Copyright © 2021 潤沁網路大學
+<br><span id="poweredby">Powered by .NET 5.0 on Kubernetes</span>
+
+
+
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+    <div id="page_end_html">
+        <a href="https://github.com/runqinshiye">潤沁網路大學</a>
+    </div>
+
+    <input type="hidden" id="antiforgery_token" value="CfDJ8EklyHYHyB5Oj4onWtxTnxaQz13Eoo2JyxyGDOL4UtzPCjD6okHzsetj77riefOZ5Gq7FiTBiLOINs8N35W7UwyO7V9iVqDbg3NyYKveixKn9G3ryyXUJR_HX-nRPTvqTZMKXQV0558MtZaFHpnpfPm4VTajZ66kXeIJjIAGQKw9r2MuFhF5fuQj-ErDFYElRg">
+
+
+</body></html>
